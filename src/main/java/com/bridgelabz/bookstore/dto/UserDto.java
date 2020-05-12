@@ -30,8 +30,13 @@ public class UserDto {
 	
 	@NotNull
 	@Pattern(regexp = "^([+]\\d{2})?\\d{10}$",message = "Incorrect mobile format for registration")
-	private Long mobileNumber;
+	private Long phoneNumber;
 	
 	private String address;
 
+	private String country;
+	
+	@NotNull
+	@Pattern(regexp = "^\\d{6}$",message="zipcode length should be 6")
+	private int zipcode; 
 }

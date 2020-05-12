@@ -1,5 +1,4 @@
-package com.bridgelabz.fundoonotes.exception;
-
+package com.bridgelabz.bookstore.exception;
 import java.time.LocalDateTime;
 
 import org.springframework.http.ResponseEntity;
@@ -7,9 +6,6 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.bridgelabz.bookstore.response.ExceptionResponse;
-
-
-
 @ControllerAdvice
 public class BookStoreExceptionHandler {
 

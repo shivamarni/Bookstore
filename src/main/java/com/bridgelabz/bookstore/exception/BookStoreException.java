@@ -16,7 +16,6 @@ public class BookStoreException extends Exception {
 	HttpStatus status;
 
 	public BookStoreException(String message,HttpStatus status) {
-		//super(message);
 		this.message = message;
 		this.status=status;
 	}

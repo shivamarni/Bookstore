@@ -20,7 +20,7 @@ import lombok.ToString;
 public class Admin {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long adminId;
+	private Long adminId;
 	@Column(name = "admin_firstName", nullable = false)
 	private String firstName;
 	@Column(name = "admin_lastName", nullable = false)

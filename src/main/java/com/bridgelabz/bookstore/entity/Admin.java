@@ -31,10 +31,8 @@ public class Admin {
 	private String password;
 	@Column(name = "phoneNumber", nullable = false)
 	private String phoneNumber;
-
 	@Column(name = "created_time", nullable = false)
 	private LocalDateTime createdTime;
-
 	@Column(name = "updated_time", nullable = false)
 	private LocalDateTime updatedTime;
 	@Column(name = "verified", nullable = false)

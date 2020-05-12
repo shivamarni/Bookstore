@@ -29,7 +29,7 @@ public class UserDto {
 	private String email;
 	
 	@NotNull
-	@Pattern(regexp = "^([+]\\d{2})?\\d{10}$",message = "Incorrect mobile format")
+	@Pattern(regexp = "^([+]\\d{2})?\\d{10}$",message = "Incorrect mobile format for registration")
 	private Long mobileNumber;
 	
 	private String address;

@@ -16,10 +16,6 @@ public class BookStoreException extends Exception {
 	HttpStatus status;
 
 	public BookStoreException(String message,HttpStatus status) {
-<<<<<<< HEAD
-		//super(message);
-=======
->>>>>>> a5012c96ac46a0e698a51f2ff515487fdac54bb6
 		this.message = message;
 		this.status=status;
 	}

@@ -1,11 +1,14 @@
 package com.bridgelabz.bookstore.entity;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -32,4 +35,7 @@ public class User {
 	private LocalDateTime createdDate;
 	@Value("null")
 	private LocalDateTime updatedDate;
+	
+	@ManyToMany(cascade = CascadeType.ALL)
+	private List<Book> books;
 }

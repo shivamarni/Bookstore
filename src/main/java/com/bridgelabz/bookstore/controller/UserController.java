@@ -44,10 +44,6 @@ public class UserController {
 		return new ResponseEntity<Response>(new Response("user is verified", user, 200),HttpStatus.OK);
 	}
 	
-	@PostMapping("user/login")
-	public ResponseEntity<Response> login(@RequestBody LoginDto login) throws BookStoreException
-	{
-		boolean 
-	}
+	
 
 }

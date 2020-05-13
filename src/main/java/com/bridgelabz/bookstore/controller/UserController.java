@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.bridgelabz.bookstore.dto.LoginDto;
 import com.bridgelabz.bookstore.dto.UserDto;
 import com.bridgelabz.bookstore.entity.User;
 import com.bridgelabz.bookstore.exception.BookStoreException;
@@ -40,6 +42,12 @@ public class UserController {
 	{
 		User user=userimpl.verify(token);
 		return new ResponseEntity<Response>(new Response("user is verified", user, 200),HttpStatus.OK);
+	}
+	
+	@PostMapping("user/login")
+	public ResponseEntity<Response> login(@RequestBody LoginDto login) throws BookStoreException
+	{
+		boolean 
 	}
 
 }

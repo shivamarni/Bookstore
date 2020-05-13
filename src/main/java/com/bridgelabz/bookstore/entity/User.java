@@ -26,7 +26,7 @@ public class User {
 	private Long phoneNumber;
 	private String address;
 	private String country;
-	private int zipcode; 
+	private Long zipcode; 
 	@Value("false")
 	private boolean isVerified;
 	private LocalDateTime createdDate;

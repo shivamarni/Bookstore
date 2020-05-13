@@ -51,6 +51,8 @@ public class SellerServiceImpl implements SellerService {
 		return seller;
 	}
 
+	
+
 	@Override
 	public Seller verify(String token) throws BookStoreException {
 		
@@ -69,6 +71,14 @@ public class SellerServiceImpl implements SellerService {
 		return sellerrepo.getSellerById(sellerId).orElseThrow(() -> new BookStoreException("no seller exists!!!",HttpStatus.NOT_FOUND));
 		
 	}
+	
+	public Seller forgotPassword(String email) throws BookStoreException {
+		getSellerByEmail(email);
+		JmsUtility.sendEmail(email, "reset your password", "http://localhost:8085/user/resetPassword/"+email);
+		return null;
+	}
+	
+	
 
 	@Override
 	public void deleteSeller(Long userId) {
@@ -109,11 +119,11 @@ public class SellerServiceImpl implements SellerService {
 //		// TODO Auto-generated method stub
 //		return null;
 //	}
-//	public Seller getUserByEmail(String email) throws BookStoreException
-//	{
-//		Seller seller=userrepo.getUserByEmail(email).orElseThrow(() -> new BookStoreException("no user exists", HttpStatus.NOT_FOUND));
-//		return seller;
-//	}
+	public Seller getSellerByEmail(String email) throws BookStoreException
+	{
+		Seller seller=sellerrepo.getSellerByEmail(email).orElseThrow(() -> new BookStoreException("no user exists", HttpStatus.NOT_FOUND));
+		return seller;
+	}
 //	public boolean isEmailExists(String email) throws BookStoreException {
 //		if(userrepo.isEmailExists(email).isPresent())
 //			throw new BookStoreException("email already exists", HttpStatus.BAD_REQUEST);

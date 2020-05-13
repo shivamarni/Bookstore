@@ -4,9 +4,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-
 import lombok.Data;
-
 @Data
 public class UserDto {
 	@NotNull(message = "first name required for registration...")
@@ -20,7 +18,7 @@ public class UserDto {
 	private String lastName;
 	
 	@NotNull(message = "password required for registration...")
-	@Pattern(regexp = "?=.*[A-Z]", message = "password must contain atlast one uppercase letter")
+	//@Pattern(regexp = "[A-Z]", message = "password must contain atlast one uppercase letter")
 	@Size(min = 7,max = 25,message = "password must be in length of 7-25 only")
 	private String password;
 	
@@ -29,7 +27,7 @@ public class UserDto {
 	private String email;
 	
 	@NotNull
-	@Pattern(regexp = "^([+]\\d{2})?\\d{10}$",message = "Incorrect mobile format for registration")
+	//@Pattern(regexp = "^([+]\\d{2})?\\d{10}$",message = "Incorrect mobile format for registration")
 	private Long phoneNumber;
 	
 	private String address;
@@ -37,6 +35,6 @@ public class UserDto {
 	private String country;
 	
 	@NotNull
-	@Pattern(regexp = "^\\d{6}$",message="zipcode length should be 6")
-	private int zipcode; 
+	//@Pattern(regexp = "^\\d{6}$",message="zipcode length should be 6")
+	private Long zipcode; 
 }

@@ -9,7 +9,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class SellerForgetPassword {
+public class ForgetPassword {
 	private String password;
 
 }

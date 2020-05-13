@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.bridgelabz.bookstore.dto.ForgetPassword;
 import com.bridgelabz.bookstore.dto.LoginDto;
 import com.bridgelabz.bookstore.dto.UserDto;
 import com.bridgelabz.bookstore.entity.User;
@@ -37,7 +38,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User loginUser(LoginDto dto) throws BookStoreException {
-		User user=userrepo.getUserByEmail(dto.getEmail()).orElseThrow(() -> new BookStoreException("no user exists", HttpStatus.NOT_FOUND));
+		User user=getUserByEmail(dto.getEmail());
 		boolean ispwd=pwdBcrypt.matches(dto.getPassword(),user.getPassword());
 		if(ispwd==false) {
 			throw new BookStoreException("incorrect password", HttpStatus.BAD_REQUEST);
@@ -53,7 +54,11 @@ public class UserServiceImpl implements UserService {
 		userrepo.save(user);
 		return user;
 	}
-	
+	public User getUserByEmail(String email) throws BookStoreException
+	{
+		User user=userrepo.getUserByEmail(email).orElseThrow(() -> new BookStoreException("no user exists", HttpStatus.NOT_FOUND));
+		return user;
+	}
 	public boolean isEmailExists(String email) throws BookStoreException {
 		if(userrepo.isEmailExists(email).isPresent())
 			throw new BookStoreException("email already exists", HttpStatus.BAD_REQUEST);
@@ -72,9 +77,16 @@ public class UserServiceImpl implements UserService {
 	}
 
 	public User forgotPassword(String email) throws BookStoreException {
-		isEmailExists(email);
+		getUserByEmail(email);
 		JmsUtility.sendEmail(email, "reset your password", "http://localhost:8085/user/resetPassword/"+email);
 		return null;
+	}
+
+	public User resetPassword(String email, ForgetPassword forgotDto) throws BookStoreException {
+		User user=getUserByEmail(email);
+		user.setPassword(pwdBcrypt.encode(forgotDto.getPassword()));
+		userrepo.save(user);
+		return user;
 	}
 	
 }

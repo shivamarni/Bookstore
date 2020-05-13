@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bridgelabz.bookstore.dto.ForgetPassword;
 import com.bridgelabz.bookstore.dto.LoginDto;
 import com.bridgelabz.bookstore.dto.UserDto;
 import com.bridgelabz.bookstore.entity.User;
@@ -57,6 +58,12 @@ public class UserController {
 	{
 		User user=userimpl.verify(token);
 		return new ResponseEntity<Response>(new Response("user is verified", user, 200),HttpStatus.OK);
+	}
+	@PutMapping("user/resetPassword/{email}")
+	public ResponseEntity<Response> resetPassword(@PathVariable("email") String email,@RequestBody ForgetPassword forgotdto ) throws BookStoreException
+	{
+		User user=userimpl.resetPassword(email,forgotdto);
+		return new ResponseEntity<Response>(new Response("new password updated", user, 200),HttpStatus.OK);
 	}
 	
 	

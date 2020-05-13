@@ -28,9 +28,6 @@ public class User {
 	private String password;
 	private String email;
 	private Long phoneNumber;
-	private String address;
-	private String country;
-	private Long zipcode; 
 	@Value("false")
 	private boolean isVerified;
 	private LocalDateTime createdDate;

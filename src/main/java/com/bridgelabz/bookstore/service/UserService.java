@@ -6,8 +6,8 @@ import com.bridgelabz.bookstore.exception.BookStoreException;
 
 public interface UserService {
 	
-	User registerUser(UserDto dto);
-	User loginUser(LoginDto dto);
+	User registerUser(UserDto dto) throws BookStoreException;
+	User loginUser(LoginDto dto) throws BookStoreException;
 	User verify(String token) throws BookStoreException;
 	User getUserById(Long userId) throws BookStoreException;
 	void deleteUser(Long userId);

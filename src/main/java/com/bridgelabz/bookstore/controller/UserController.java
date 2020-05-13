@@ -25,15 +25,23 @@ public class UserController {
 	
 	@Autowired
 	private UserServiceImpl userimpl;
-	
 	@PostMapping("user/register/")
-	public ResponseEntity<Response> registerUser(@Valid @RequestBody UserDto userdto)
+	public ResponseEntity<Response> registerUser(@Valid @RequestBody UserDto userdto,BindingResult result) throws BookStoreException
 	{
-//		if(result.hasErrors())
-//		if (result.hasErrors())
-//		return new ResponseEntity<Response>(new Response("invalid details",null,400),HttpStatus.BAD_REQUEST);
+		if (result.hasErrors())
+		return new ResponseEntity<Response>(new Response(result.getAllErrors().get(0).getDefaultMessage(),null,400),HttpStatus.BAD_REQUEST);
 		User user=userimpl.registerUser(userdto);
 		return new ResponseEntity<Response>(new Response("user registered and verification mail sent", user, 200),HttpStatus.CREATED);
+
+	}
+	
+	@PostMapping("user/login")
+	public ResponseEntity<Response> registerUser(@Valid @RequestBody LoginDto logindto,BindingResult result) throws BookStoreException
+	{
+		if (result.hasErrors())
+		return new ResponseEntity<Response>(new Response(result.getAllErrors().get(0).getDefaultMessage(),null,400),HttpStatus.BAD_REQUEST);
+		User user=userimpl.loginUser(logindto);
+		return new ResponseEntity<Response>(new Response("login successful....", user, 200),HttpStatus.CREATED);
 
 	}
 	

@@ -10,10 +10,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bridgelabz.bookstore.dto.ForgetPassword;
 import com.bridgelabz.bookstore.dto.LoginDto;
 import com.bridgelabz.bookstore.dto.UserDto;
 import com.bridgelabz.bookstore.entity.Seller;
@@ -62,7 +64,13 @@ public class SellerController {
 		Seller seller=sellerimpl.forgotPassword(email);
 		return new ResponseEntity<Response>(new Response("reset password link sent to email....", seller, 200),HttpStatus.CREATED);
 	}
+	@PutMapping("seller/resetPassword/{email}")
+	public ResponseEntity<Response> resetPassword(@PathVariable("email") String email,@RequestBody ForgetPassword forgotdto ) throws BookStoreException
+	{
+		Seller seller=sellerimpl.resetPassword(email,forgotdto);
+		return new ResponseEntity<Response>(new Response("new password updated", seller, 200),HttpStatus.OK);
 	
+	}
 	
 
 }

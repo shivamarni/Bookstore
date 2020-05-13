@@ -30,5 +30,6 @@ public class User {
 	@Value("false")
 	private boolean isVerified;
 	private LocalDateTime createdDate;
+	@Value("null")
 	private LocalDateTime updatedDate;
 }

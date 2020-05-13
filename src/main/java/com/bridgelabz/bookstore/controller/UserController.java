@@ -58,5 +58,7 @@ public class UserController {
 		User user=userimpl.verify(token);
 		return new ResponseEntity<Response>(new Response("user is verified", user, 200),HttpStatus.OK);
 	}
+	
+	
 
 }

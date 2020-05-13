@@ -9,7 +9,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -17,7 +19,7 @@ import org.springframework.beans.factory.annotation.Value;
 import lombok.Data;
 
 @Entity
-@Table(name="users")
+@Table(name="user")
 @Data
 public class User {
 	@Id
@@ -34,6 +36,19 @@ public class User {
 	@Value("null")
 	private LocalDateTime updatedDate;
 	
+	@OneToMany(cascade = CascadeType.ALL,fetch=FetchType.LAZY,targetEntity = Cart.class)
+	@JoinColumn(name="userId")
+	private List<Cart> cartBooks;
+	
+	@OneToMany(cascade = CascadeType.ALL,fetch=FetchType.LAZY,targetEntity = Address.class)
+	@JoinColumn(name="userId")
+	private List<Address> addresses;
+	
+	@OneToMany(cascade = CascadeType.ALL,fetch=FetchType.LAZY,targetEntity = OrderedBooks.class)
+	@JoinColumn(name="userId")
+	private List<OrderedBooks> orderedBooks;
+	
 	@ManyToMany(cascade = CascadeType.ALL,fetch =FetchType.LAZY)
-	private List<Book> books;
+	private List<Book> wishlistbooks;
+	
 }

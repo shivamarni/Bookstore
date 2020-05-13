@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService {
 	
 	public boolean isEmailExists(String email) throws BookStoreException {
 		if(userrepo.isEmailExists(email).isPresent())
-			throw new BookStoreException("email not exists", HttpStatus.BAD_REQUEST);
+			throw new BookStoreException("email already exists", HttpStatus.BAD_REQUEST);
 		return false;
 	}
 
@@ -69,6 +69,12 @@ public class UserServiceImpl implements UserService {
 	public void deleteUser(Long userId) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public User forgotPassword(String email) throws BookStoreException {
+		isEmailExists(email);
+		JmsUtility.sendEmail(email, "reset your password", "http://localhost:8085/user/resetPassword/"+email);
+		return null;
 	}
 	
 }

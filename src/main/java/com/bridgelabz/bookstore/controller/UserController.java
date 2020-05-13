@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -45,6 +46,12 @@ public class UserController {
 
 	}
 	
+	@PostMapping("user/forgotPassword")
+	public ResponseEntity<Response> forgotPassword(@RequestHeader String email) throws BookStoreException
+	{
+		User user=userimpl.forgotPassword(email);
+		return new ResponseEntity<Response>(new Response("reset password link sent to email....", user, 200),HttpStatus.CREATED);
+	}
 	@GetMapping("user/verify/{token}")
 	public ResponseEntity<Response> verifyuser(@PathVariable("token") String token) throws BookStoreException
 	{

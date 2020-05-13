@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.bridgelabz.bookstore.entity.Seller;
 
 
+
 @Repository
 public class SellerRepository {
 
@@ -31,6 +32,13 @@ public class SellerRepository {
 		Session session = entityManager.unwrap(Session.class);
 		System.out.println(sellerId);
 		return session.createQuery("FROM Seller where sellerId =:id").setParameter("id", sellerId).uniqueResultOptional();
+	}
+	
+	public Optional<Seller> getSellerByEmail(String email) {
+
+		Session session = entityManager.unwrap(Session.class);
+		return session.createQuery("FROM Seller where email =:email").setParameter("email", email).uniqueResultOptional();
+
 	}
 
 	

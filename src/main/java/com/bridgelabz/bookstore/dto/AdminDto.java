@@ -26,13 +26,11 @@ public class AdminDto {
 	@NotNull
 	@Email
 	private String email;
-	@NotNull(message = "password required for registration...")
-	@Pattern(regexp = "?=.*[A-Z]", message = "password must contain atlast one uppercase letter")
-	@Size(min = 7,max = 25,message = "password must be in length of 7-25 only")
+	@NotNull
 	private String password;
 	private LocalDateTime createdTime;
 	private LocalDateTime updatedTime;
 	@NotNull
-	@Pattern(regexp = "^([+]\\d{2})?\\d{10}$",message = "Incorrect mobile format for registration")
+	
 	private Long phoneNumber;
 }

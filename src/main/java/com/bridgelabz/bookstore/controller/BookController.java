@@ -21,11 +21,11 @@ public class BookController {
 	
 	private BookService bookService;
 	
-	@PostMapping("book/add")
-	public ResponseEntity<Response> addBook(@RequestBody BookDto bookDTO,@RequestHeader(name="token") String token){
-		bookService.addBook(bookDTO, token);
-		return ResponseEntity.ok().body(new Response(HttpStatus.OK.value(),env.getProperty("2001")));
-	}
+//	@PostMapping("book/add")
+//	public ResponseEntity<Response> addBook(@RequestBody BookDto bookDTO,@RequestHeader(name="token") String token){
+//		bookService.addBook(bookDTO, token);
+//		return ResponseEntity.ok//.body() new Response(HttpStatus.OK.value(),env.getProperty("2001")));
+//	}
 	
 
 }

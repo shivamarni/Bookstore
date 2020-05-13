@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
 public class Seller {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long userId;
+	private Long sellerId;
 	private String firstName;
 	private String lastName;
 	private String password;

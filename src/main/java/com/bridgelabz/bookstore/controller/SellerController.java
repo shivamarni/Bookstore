@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bridgelabz.bookstore.dto.LoginDto;
@@ -50,9 +51,18 @@ public class SellerController {
 	@PostMapping("seller/login")
 	public ResponseEntity<Response> registerUser(@Valid @RequestBody LoginDto logindto,BindingResult result) throws BookStoreException
 	{
-		Seller seller=sellerimpl.loginUser(logindto);
+		Seller seller=sellerimpl.loginSeller(logindto);
 		return new ResponseEntity<Response>(new Response("login successful....", seller, 200),HttpStatus.CREATED);
 
 	}
+	
+	@PostMapping("seller/forgotPassword")
+	public ResponseEntity<Response> forgotPassword(@RequestHeader String email) throws BookStoreException
+	{
+		Seller seller=sellerimpl.forgotPassword(email);
+		return new ResponseEntity<Response>(new Response("reset password link sent to email....", seller, 200),HttpStatus.CREATED);
+	}
+	
+	
 
 }

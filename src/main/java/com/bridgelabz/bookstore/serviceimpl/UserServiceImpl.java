@@ -24,7 +24,8 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private BCryptPasswordEncoder pwdBcrypt;
 	@Override
-	public User registerUser(UserDto userdto) {
+	public User registerUser(UserDto userdto) throws BookStoreException {
+		isEmailExists(userdto.getEmail());
 		User user=new User();
 		BeanUtils.copyProperties(userdto, user);
 		user.setPassword(pwdBcrypt.encode(userdto.getPassword()));
@@ -35,9 +36,13 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User loginUser(LoginDto dto) {
-		// TODO Auto-generated method stub
-		return null;
+	public User loginUser(LoginDto dto) throws BookStoreException {
+		User user=userrepo.getUserByEmail(dto.getEmail()).orElseThrow(() -> new BookStoreException("no user exists", HttpStatus.NOT_FOUND));
+		boolean ispwd=pwdBcrypt.matches(dto.getPassword(),user.getPassword());
+		if(ispwd==false) {
+			throw new BookStoreException("incorrect password", HttpStatus.BAD_REQUEST);
+		}
+		return user;
 	}
 
 	@Override
@@ -47,6 +52,12 @@ public class UserServiceImpl implements UserService {
 		user.setVerified(true);
 		userrepo.save(user);
 		return user;
+	}
+	
+	public boolean isEmailExists(String email) throws BookStoreException {
+		if(userrepo.isEmailExists(email).isPresent())
+			throw new BookStoreException("email not exists", HttpStatus.BAD_REQUEST);
+		return false;
 	}
 
 	@Override

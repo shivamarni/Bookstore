@@ -18,23 +18,19 @@ public class UserDto {
 	private String lastName;
 	
 	@NotNull(message = "password required for registration...")
-	//@Pattern(regexp = "[A-Z]", message = "password must contain atlast one uppercase letter")
-	@Size(min = 7,max = 25,message = "password must be in length of 7-25 only")
+	@Size(min = 6,max = 25,message = "password must be in length of 7-25 only")
 	private String password;
 	
 	@NotNull
 	@Email
 	private String email;
 	
-	@NotNull
-	//@Pattern(regexp = "^([+]\\d{2})?\\d{10}$",message = "Incorrect mobile format for registration")
+	@NotNull(message = "phone number required for registration...")
 	private Long phoneNumber;
 	
 	private String address;
 
 	private String country;
 	
-	@NotNull
-	//@Pattern(regexp = "^\\d{6}$",message="zipcode length should be 6")
 	private Long zipcode; 
 }

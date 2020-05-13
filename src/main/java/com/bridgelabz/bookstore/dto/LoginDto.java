@@ -1,9 +1,6 @@
 package com.bridgelabz.bookstore.dto;
-
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,11 +11,9 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class LoginDto {	
-	@NotNull
+	@NotNull(message = "email required for login")
 	@Email
 	private String email;
-	@NotNull(message = "password required for registration...")
-	@Pattern(regexp = "?=.*[A-Z]", message = "password must contain atlast one uppercase letter")
-	@Size(min = 7,max = 25,message = "password must be in length of 7-25 only")
+	@NotNull(message = "password required for login")
 	private String password;
 }

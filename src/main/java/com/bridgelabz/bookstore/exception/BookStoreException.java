@@ -17,6 +17,7 @@ public class BookStoreException extends Exception {
 
 	public BookStoreException(String message,HttpStatus status) {
 <<<<<<< HEAD
+<<<<<<< HEAD
 		//super(message);
 =======
 <<<<<<< HEAD
@@ -24,6 +25,8 @@ public class BookStoreException extends Exception {
 =======
 >>>>>>> a5012c96ac46a0e698a51f2ff515487fdac54bb6
 >>>>>>> 9e79260081006563116865a2e2d652de901a8eb5
+=======
+>>>>>>> e5e607b26169006dad9f8f781e60e0e060d82f20
 		this.message = message;
 		this.status=status;
 	}

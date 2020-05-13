@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.bridgelabz.bookstore.dto.LoginDto;
@@ -20,10 +21,13 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	private UserRepository userrepo;
+	@Autowired
+	private BCryptPasswordEncoder pwdBcrypt;
 	@Override
 	public User registerUser(UserDto userdto) {
 		User user=new User();
 		BeanUtils.copyProperties(userdto, user);
+		user.setPassword(pwdBcrypt.encode(userdto.getPassword()));
 		user.setCreatedDate(LocalDateTime.now());
 		User user2=userrepo.save(user);
 		JmsUtility.sendEmail(userdto.getEmail(),"verification email","http://localhost:8085/user/verify/"+JWTUtility.jwtToken(user2.getUserId()));

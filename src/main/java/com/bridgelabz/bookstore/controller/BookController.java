@@ -24,6 +24,7 @@ public class BookController {
 	
 	private BookService bookService;
 	
+
 	@PostMapping("book/add")
 	public ResponseEntity<Response> addBook(@RequestBody BookDto bookDTO,@RequestHeader(name="token") String token) throws BookStoreException{
 		Book book=bookService.addBook(bookDTO, token);
@@ -44,6 +45,7 @@ public class BookController {
 		return new ResponseEntity<Response>(new Response("Book updated to seller", book, 200),
 				HttpStatus.CREATED);
 	}
+
 	
 
 }

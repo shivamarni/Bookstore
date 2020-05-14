@@ -26,11 +26,5 @@ public class UserDto {
 	private String email;
 	
 	@NotNull(message = "phone number required for registration...")
-	private Long phoneNumber;
-	
-	private String address;
-
-	private String country;
-	
-	private Long zipcode; 
+	private Long phoneNumber; 
 }

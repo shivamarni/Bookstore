@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -42,9 +43,8 @@ public class User {
 	@Value("null")
 	private LocalDateTime updatedDate;
 	
-	@OneToMany(cascade = CascadeType.ALL,fetch=FetchType.LAZY,targetEntity = Cart.class)
-	@JoinColumn(name="userId")
-	private List<Cart> cartBooks;
+	@OneToOne(cascade = CascadeType.ALL,fetch=FetchType.LAZY,mappedBy = "user", optional = false)
+	private Cart cart;
 	
 	@OneToMany(cascade = CascadeType.ALL,fetch=FetchType.LAZY,targetEntity = Address.class)
 	@JoinColumn(name="userId")

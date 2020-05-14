@@ -3,6 +3,8 @@ package com.bridgelabz.bookstore.serviceimpl;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.bridgelabz.bookstore.dto.ForgetPassword;
 import com.bridgelabz.bookstore.dto.LoginDto;
+import com.bridgelabz.bookstore.dto.SellerDto;
 import com.bridgelabz.bookstore.dto.UserDto;
 import com.bridgelabz.bookstore.entity.Seller;
 import com.bridgelabz.bookstore.entity.User;
@@ -28,16 +31,15 @@ public class SellerServiceImpl implements SellerService {
 	private BCryptPasswordEncoder pwdBcrypt;
 
 	@Override
-	public Seller registerSeller(UserDto userdto) throws BookStoreException {
-		//isEmailExists(userdto.getEmail());
-		if(sellerrepo.getSellerByEmail(userdto.getEmail()).isPresent()==false)
+	public Seller registerSeller(@Valid SellerDto sellerdto) throws BookStoreException {
+		if(sellerrepo.getSellerByEmail(sellerdto.getEmail()).isPresent()==false)
 		{
 		Seller seller=new Seller();
-		BeanUtils.copyProperties(userdto, seller);
-		seller.setPassword(pwdBcrypt.encode(userdto.getPassword()));
+		BeanUtils.copyProperties(sellerdto, seller);
+		seller.setPassword(pwdBcrypt.encode(sellerdto.getPassword()));
 		seller.setCreatedDate(LocalDateTime.now());
 		sellerrepo.save(seller);
-		JmsUtility.sendEmail(userdto.getEmail(),"verification email","http://localhost:8085/seller/verify/"+JWTUtility.jwtToken(seller.getSellerId()));
+		JmsUtility.sendEmail(sellerdto.getEmail(),"verification email","http://localhost:8085/seller/verify/"+JWTUtility.jwtToken(seller.getSellerId()));
 		return seller;
 		}
 		else {

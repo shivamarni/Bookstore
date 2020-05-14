@@ -10,7 +10,10 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -26,12 +29,17 @@ public class Cart {
 	private Long cartId;
 	
 	@Column(name = "bookquantity")
+	
 	private Long bookQuantity;
 	
 	private LocalDateTime createdTime;
 	
-	@ManyToMany(cascade = CascadeType.ALL,fetch=FetchType.LAZY)
-	private List<Book> bookllist;
+	@ManyToMany(cascade = CascadeType.ALL,fetch=FetchType.EAGER)
+	private List<Book> booklist;
+	
+	@OneToOne(cascade = CascadeType.ALL,fetch=FetchType.LAZY,optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
+	private User user;
 	
 	
 }

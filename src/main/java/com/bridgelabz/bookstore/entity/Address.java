@@ -2,6 +2,7 @@ package com.bridgelabz.bookstore.entity;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,14 +20,21 @@ public class Address {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long addressId;
-	
+	@Column(name = "country", nullable = false)
 	private String country;
+	@Column(name = "state", nullable = false)
 	private String state;
-	private String district;;
+	@Column(name = "district", nullable = false)
+	private String district;
+	@Column(name = "city", nullable = false)
 	private String city;
+	@Column(name = "zipcode", nullable = false)
 	private Long zipcode;
+	@Column(name = "street", nullable = false)
 	private String street;
+	@Column(name = "addressType")
 	private String addressType;
+	@Column(name = "doorNo", nullable = false)
 	private String doorNo;
 	private LocalDateTime createdTime;
 	@Value("null")

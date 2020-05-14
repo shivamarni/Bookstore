@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -29,12 +30,17 @@ public class Seller {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long sellerId;
+	@Column(name = "seller_firstName", nullable = false)
 	private String firstName;
+	@Column(name = "seller_lastName", nullable = false)
 	private String lastName;
+	@Column(name = "password", nullable = false)
 	private String password;
+	@Column(name = "seller_email", nullable = false)
 	private String email;
+	@Column(name = "phoneNumber", nullable = false)
 	private Long phoneNumber;
-	@Value("false")
+	@Column(name = "verified", nullable = false)
 	private boolean isVerified;
 	private LocalDateTime createdDate;
 	

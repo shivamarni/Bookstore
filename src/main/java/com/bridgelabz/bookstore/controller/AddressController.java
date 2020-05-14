@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bridgelabz.bookstore.dto.AddressDto;
@@ -23,12 +24,17 @@ import com.bridgelabz.bookstore.exception.BookStoreException;
 import com.bridgelabz.bookstore.response.Response;
 import com.bridgelabz.bookstore.serviceimpl.AddressServiceImpl;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 @RestController
+@Api("user address")
+@RequestMapping("address")
 public class AddressController {
 	
 	@Autowired
 	private AddressServiceImpl addressimpl;
-	@PostMapping("address/addAddress")
+	@PostMapping("addAddress")
 	public ResponseEntity<Response> addAddress(@Valid @RequestBody AddressDto addressDto,@RequestHeader String token,BindingResult result) throws BookStoreException
 	{
 		if (result.hasErrors())
@@ -37,7 +43,7 @@ public class AddressController {
 		return new ResponseEntity<Response>(new Response("address added", address, 200),HttpStatus.CREATED);
 	}
 	
-	@PutMapping("address/updateAddress")
+	@PutMapping("/updateAddress")
 	public ResponseEntity<Response> updateAddress(@Valid @RequestBody AddressDto addressDto,@RequestHeader String token,@RequestHeader Long addressId,BindingResult result) throws BookStoreException
 	{
 		if (result.hasErrors())
@@ -45,28 +51,28 @@ public class AddressController {
 		Address address=addressimpl.updateAddress(addressDto, token,addressId);
 		return new ResponseEntity<Response>(new Response("address updated", address, 200),HttpStatus.CREATED);
 	}
-	@GetMapping("address/getAddressById")
+	@GetMapping("/AddressById")
 	public ResponseEntity<Response> getAddressById(Long addressId,Long userId) throws BookStoreException
 	{
 		Address address=addressimpl.getAddressById(addressId, userId);
 		return new ResponseEntity<Response>(new Response("address is",address, 200),HttpStatus.CREATED);
 	}
 	
-	@GetMapping("address/getAllAddresses")
+	@GetMapping("/AllAddresses")
 	public ResponseEntity<Response> getAllAddresses(String token) throws BookStoreException
 	{
 		List<Address> addresses=addressimpl.getAllAddresses(token);
 		return new ResponseEntity<Response>(new Response("address is",addresses, 200),HttpStatus.CREATED);
 	}
 	
-	@DeleteMapping("address/deleteAddressById/{addressId}")
+	@DeleteMapping("/AddressById/{addressId}")
 	public ResponseEntity<Response> deleteAddress(String token,@PathVariable("addressId") Long addressId) throws BookStoreException
 	{
 		addressimpl.deleteAddress(token,addressId);
 		return new ResponseEntity<Response>(new Response("address deleted",null, 200),HttpStatus.CREATED);
 	}
 	
-	@DeleteMapping("address/deleteAllAddresses")
+	@DeleteMapping("/AllAddresses")
 	public ResponseEntity<Response> deleteAllAddresses(String token) throws BookStoreException
 	{
 		addressimpl.deleteAllAddresses(token);

@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -25,12 +26,17 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long userId;
+	@Column(name = "user_firstName", nullable = false)
 	private String firstName;
+	@Column(name = "user_lastName", nullable = false)
 	private String lastName;
+	@Column(name = "user_password", nullable = false)
 	private String password;
+	@Column(name = "user_email", nullable = false)
 	private String email;
+	@Column(name = "user_phoneNumber", nullable = false)
 	private Long phoneNumber;
-	@Value("false")
+	@Column(name = "verify_status", nullable = false)
 	private boolean isVerified;
 	private LocalDateTime createdDate;
 	@Value("null")

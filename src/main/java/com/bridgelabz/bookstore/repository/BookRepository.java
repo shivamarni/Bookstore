@@ -1,5 +1,7 @@
 package com.bridgelabz.bookstore.repository;
 
+import java.util.Optional;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.bridgelabz.bookstore.entity.Book;
 import com.bridgelabz.bookstore.entity.Seller;
+import com.bridgelabz.fundoonotes.entity.Note;
 
 @Repository
 public class BookRepository {
@@ -22,6 +25,12 @@ public class BookRepository {
 		session.saveOrUpdate(book);
 
 		return book;
+
+	}
+	
+	public Optional<Book> findById(Long bookId) {
+		Session session = entityManager.unwrap(Session.class);
+		return session.createQuery("from Book where id=:id").setParameter("id", bookId).uniqueResultOptional();
 
 	}
 

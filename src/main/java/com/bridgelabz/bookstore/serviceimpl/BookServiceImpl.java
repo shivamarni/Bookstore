@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
@@ -22,13 +23,12 @@ import com.bridgelabz.bookstore.repository.SellerRepository;
 import com.bridgelabz.bookstore.service.BookService;
 import com.bridgelabz.bookstore.utility.JWTUtility;
 
-
 @Service
 public class BookServiceImpl implements BookService {
 
 	@Autowired
 	private SellerRepository sellerrepo;
-	
+
 	@Autowired
 	private BookServiceImpl bookService;
 
@@ -86,7 +86,7 @@ public class BookServiceImpl implements BookService {
 	@Override
 	@Transactional
 	public Book deleteBook(String token, Long bookId) throws BookStoreException {
-		
+
 		Long sellerId = JWTUtility.parseJWT(token);
 
 		Seller seller = sellerrepo.getSellerById(sellerId)
@@ -95,53 +95,57 @@ public class BookServiceImpl implements BookService {
 		Book book = seller.getSellerBooks().stream().filter(boook -> boook.getBookId().equals(bookId)).findFirst()
 				.orElseThrow(() -> new BookStoreException("Book not present ", HttpStatus.NOT_FOUND));
 		seller.getSellerBooks().remove(book);
-		
+
 		bookrepo.save(book);
 		sellerrepo.save(seller);
 		return book;
 	}
-	
+
 	@Override
 	@Transactional
 	public List<Book> getAllBooks(String token) throws BookStoreException {
-		
+
 		Long sellerId = JWTUtility.parseJWT(token);
 
 		Seller seller = sellerrepo.getSellerById(sellerId)
 				.orElseThrow(() -> new BookStoreException("Seller not found", HttpStatus.NOT_FOUND));
 
-		List<Book> bookList=seller.getSellerBooks();
+		List<Book> bookList = seller.getSellerBooks();
 		return bookList;
 	}
-	
 
 	@Transactional
 	@Override
-	public List<Book> getBooksSortedByPriceLow(String token) throws BookStoreException{
-		List<Book> bookList=bookService.getAllBooks(token);
+	public List<Book> getBooksSortedByPriceLow(String token) throws BookStoreException {
+		List<Book> bookList = bookService.getAllBooks(token);
 		List<Book> sortBookByPriceLow = bookList.parallelStream().sorted(Comparator.comparing(Book::getBookPrice))
-		.collect(Collectors.toList());
+				.collect(Collectors.toList());
 		return sortBookByPriceLow;
 	}
-	
-	
-	
+
 	@Transactional
 	@Override
-	public List<Book> getBooksSortedByPriceHigh(String token) throws BookStoreException{
-		List<Book> bookList=bookService.getAllBooks(token);
+	public List<Book> getBooksSortedByPriceHigh(String token) throws BookStoreException {
+		List<Book> bookList = bookService.getAllBooks(token);
 		List<Book> sortBookByPriceHigh = bookList.parallelStream().sorted(Comparator.comparing(Book::getBookPrice))
-		.collect(Collectors.toList());
+				.collect(Collectors.toList());
 		Collections.reverse(sortBookByPriceHigh);
 		return sortBookByPriceHigh;
 	}
-	
+
 	@Transactional
 	@Override
-	public List<Book> getBooksSortedByArrival(String token) throws BookStoreException{
-		List<Book> bookList=bookService.getAllBooks(token);
-		List<Book> sortBookByPriceArrival = bookList.parallelStream().sorted(Comparator.comparing(Book::getBookAddedTime))
-				.collect(Collectors.toList());
+	public List<Book> getBooksSortedByArrival(String token) throws BookStoreException {
+		List<Book> bookList = bookService.getAllBooks(token);
+		List<Book> sortBookByPriceArrival = bookList.parallelStream()
+				.sorted(Comparator.comparing(Book::getBookAddedTime)).collect(Collectors.toList());
 		return sortBookByPriceArrival;
+	}
+
+	@Override
+	public Book getBookById(Long bookId) throws BookStoreException {
+		Book book = bookrepo.findById(bookId)
+				.orElseThrow((() -> new BookStoreException("book not found", HttpStatus.NOT_FOUND)));
+		return book;
 	}
 }

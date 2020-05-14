@@ -15,6 +15,7 @@ public interface BookService {
 	public List<Book> getBooksSortedByPriceLow(String token) throws BookStoreException;
 	public List<Book> getBooksSortedByPriceHigh(String token) throws BookStoreException;
 	public List<Book> getBooksSortedByArrival(String token) throws BookStoreException;
+	public Book getBookById(Long bookId) throws BookStoreException;
 		
 
 

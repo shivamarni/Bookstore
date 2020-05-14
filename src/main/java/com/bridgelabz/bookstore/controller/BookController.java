@@ -24,6 +24,7 @@ public class BookController {
 	
 	private BookService bookService;
 	
+
 	@PostMapping("book/add")
 	public ResponseEntity<Response> addBook(@RequestBody BookDto bookDTO,@RequestHeader(name="token") String token) throws BookStoreException{
 		Book book=bookService.addBook(bookDTO, token);
@@ -36,6 +37,7 @@ public class BookController {
 		Book book=bookService.updateBook(bookDTO, token, bookId);
 		return new ResponseEntity<Response>(new Response("Book updated to seller", book, 200),
 				HttpStatus.CREATED);
+
 	}
 	
 	@PostMapping("book/delete/{bookId}")
@@ -43,7 +45,12 @@ public class BookController {
 		Book book=bookService.deleteBook( token, bookId);
 		return new ResponseEntity<Response>(new Response("Book deleted to seller", book, 200),
 				HttpStatus.CREATED);
+
+
 	}
+	
+	
+
 	
 
 }

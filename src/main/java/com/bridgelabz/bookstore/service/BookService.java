@@ -1,5 +1,6 @@
 package com.bridgelabz.bookstore.service;
 
+
 import java.util.List;
 
 import com.bridgelabz.bookstore.dto.BookDto;
@@ -15,5 +16,6 @@ public interface BookService {
 	public List<Book> getBooksSortedByPriceHigh(String token) throws BookStoreException;
 	public List<Book> getBooksSortedByArrival(String token) throws BookStoreException;
 		
+
 
 }

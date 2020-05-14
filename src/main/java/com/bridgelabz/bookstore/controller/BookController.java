@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bridgelabz.bookstore.dto.BookDto;
@@ -18,21 +19,25 @@ import com.bridgelabz.bookstore.exception.BookStoreException;
 import com.bridgelabz.bookstore.response.Response;
 import com.bridgelabz.bookstore.service.BookService;
 
+import io.swagger.annotations.Api;
+
 @RestController
+@Api(description="Book Store details")
+@RequestMapping("book")
 public class BookController {
 
 	@Autowired
 
 	private BookService bookService;
 
-	@PostMapping("book/add")
+	@PostMapping("/add")
 	public ResponseEntity<Response> addBook(@RequestBody BookDto bookDTO, @RequestHeader(name = "token") String token)
 			throws BookStoreException {
 		Book book = bookService.addBook(bookDTO, token);
 		return new ResponseEntity<Response>(new Response("Book added to seller", book, 200), HttpStatus.CREATED);
 	}
 
-	@PostMapping("book/update/{bookId}")
+	@PostMapping("/update/{bookId}")
 	public ResponseEntity<Response> updateBook(@RequestBody BookDto bookDTO, @RequestHeader("token") String token,
 			@PathVariable("bookId") Long bookId) throws BookStoreException {
 		Book book = bookService.updateBook(bookDTO, token, bookId);
@@ -40,7 +45,7 @@ public class BookController {
 
 	}
 
-	@PostMapping("book/delete/{bookId}")
+	@PostMapping("/delete/{bookId}")
 	public ResponseEntity<Response> deleteBook(@RequestHeader("token") String token,
 			@PathVariable("bookId") Long bookId) throws BookStoreException {
 		Book book = bookService.deleteBook(token, bookId);
@@ -48,7 +53,7 @@ public class BookController {
 
 	}
 
-	@GetMapping("book/sortedbypricelow/{token}")
+	@GetMapping("/sortedbypricelow/{token}")
 	public ResponseEntity<Response> sortedByPriceLow(@RequestHeader("token") String token) throws BookStoreException {
 		List<Book> priceLowSortedList = bookService.getBooksSortedByPriceLow(token);
 		return new ResponseEntity<Response>(new Response("sorted book by price low", priceLowSortedList, 200),
@@ -56,7 +61,7 @@ public class BookController {
 
 	}
 
-	@GetMapping("book/sortedbypricehigh/{token}")
+	@GetMapping("/sortedbypricehigh/{token}")
 	public ResponseEntity<Response> sortedByPriceHigh(@RequestHeader("token") String token) throws BookStoreException {
 		List<Book> priceHighSortedList = bookService.getBooksSortedByPriceHigh(token);
 		return new ResponseEntity<Response>(new Response("sorted book by price high", priceHighSortedList, 200),
@@ -64,7 +69,7 @@ public class BookController {
 
 	}
 
-	@GetMapping("book/sortedbyarrival/{token}")
+	@GetMapping("/sortedbyarrival/{token}")
 	public ResponseEntity<Response> sortedByArrival(@RequestHeader("token") String token) throws BookStoreException {
 		List<Book> arrivalSortedList = bookService.getBooksSortedByPriceHigh(token);
 		return new ResponseEntity<Response>(new Response("sorted book by price high", arrivalSortedList, 200),
@@ -72,7 +77,7 @@ public class BookController {
 
 	}
 
-	@GetMapping("book/getbookbyid/{bookId}")
+	@GetMapping("/getbookbyid/{bookId}")
 	public ResponseEntity<Response> getBookById(@PathVariable("bookId") Long bookId) throws BookStoreException {
 		Book book = bookService.getBookById(bookId);
 		return new ResponseEntity<Response>(new Response("book details", book, 200), HttpStatus.CREATED);

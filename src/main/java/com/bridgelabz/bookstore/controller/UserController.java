@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,12 +23,16 @@ import com.bridgelabz.bookstore.exception.BookStoreException;
 import com.bridgelabz.bookstore.response.Response;
 import com.bridgelabz.bookstore.serviceimpl.UserServiceImpl;
 
+import io.swagger.annotations.Api;
+
 @RestController
+@Api(description=" User in Book Store")
+@RequestMapping("user")
 public class UserController {
 	
 	@Autowired
 	private UserServiceImpl userimpl;
-	@PostMapping("user/register/")
+	@PostMapping("/register/")
 	public ResponseEntity<Response> registerUser(@Valid @RequestBody UserDto userdto,BindingResult result) throws BookStoreException
 	{
 		if (result.hasErrors())
@@ -37,7 +42,7 @@ public class UserController {
 
 	}
 	
-	@PostMapping("user/login")
+	@PostMapping("/login")
 	public ResponseEntity<Response> registerUser(@Valid @RequestBody LoginDto logindto,BindingResult result) throws BookStoreException
 	{
 		if (result.hasErrors())
@@ -59,7 +64,7 @@ public class UserController {
 		User user=userimpl.verify(token);
 		return new ResponseEntity<Response>(new Response("user is verified", user, 200),HttpStatus.OK);
 	}
-	@PutMapping("user/resetPassword/{email}")
+	@PutMapping("/resetPassword/{email}")
 	public ResponseEntity<Response> resetPassword(@PathVariable("email") String email,@RequestBody ForgetPassword forgotdto ) throws BookStoreException
 	{
 		User user=userimpl.resetPassword(email,forgotdto);

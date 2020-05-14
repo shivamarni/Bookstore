@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bridgelabz.bookstore.dto.ForgetPassword;
@@ -26,13 +27,17 @@ import com.bridgelabz.bookstore.response.Response;
 import com.bridgelabz.bookstore.serviceimpl.SellerServiceImpl;
 import com.bridgelabz.bookstore.serviceimpl.UserServiceImpl;
 
+import io.swagger.annotations.Api;
+
 @RestController
+@Api(description=" Seller in Book Store")
+@RequestMapping("seller")
 public class SellerController {
 	@Autowired
 	private SellerServiceImpl sellerimpl;
 
 	@Transactional
-	@PostMapping("seller/register")
+	@PostMapping("/register")
 	public ResponseEntity<Response> registerUser(@Valid @RequestBody SellerDto sellerdto, BindingResult result)
 			throws BookStoreException {
 		Seller seller = sellerimpl.registerSeller(sellerdto);
@@ -42,7 +47,7 @@ public class SellerController {
 	}
 	
 	@Transactional
-	@GetMapping("seller/verify/{token}")
+	@GetMapping("/verify/{token}")
 	public ResponseEntity<Response> verifySeller(@PathVariable("token") String token) throws BookStoreException
 	{
 		System.out.println("inside verify");
@@ -51,7 +56,7 @@ public class SellerController {
 	}
 	
 	@Transactional
-	@PostMapping("seller/login")
+	@PostMapping("/login")
 	public ResponseEntity<Response> loginUser(@Valid @RequestBody LoginDto logindto,BindingResult result) throws BookStoreException
 	{
 		Seller seller=sellerimpl.loginSeller(logindto);
@@ -65,7 +70,7 @@ public class SellerController {
 		Seller seller=sellerimpl.forgotPassword(email);
 		return new ResponseEntity<Response>(new Response("reset password link sent to email....", seller, 200),HttpStatus.CREATED);
 	}
-	@PutMapping("seller/resetPassword/{email}")
+	@PutMapping("/resetPassword/{email}")
 	public ResponseEntity<Response> resetPassword(@PathVariable("email") String email,@RequestBody ForgetPassword forgotdto ) throws BookStoreException
 	{
 		Seller seller=sellerimpl.resetPassword(email,forgotdto);

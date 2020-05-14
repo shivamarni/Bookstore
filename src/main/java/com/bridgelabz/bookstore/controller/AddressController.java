@@ -29,7 +29,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
-@Api(description=" Cart in Book Store")
+@Api(description=" Address in online store")
 @RequestMapping("address")
 public class AddressController {
 	

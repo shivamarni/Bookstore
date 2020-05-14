@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Value;
 
@@ -42,6 +43,10 @@ public class Seller {
 	private Long phoneNumber;
 	@Column(name = "verified", nullable = false)
 	private boolean isVerified;
+	@Column(name = "country", nullable = false)
+	private String country;
+	@Column(name = "zipCode", nullable = false)
+	private Long zipCode;
 	private LocalDateTime createdDate;
 	
 	private LocalDateTime updatedDate;

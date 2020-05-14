@@ -52,9 +52,9 @@ public class Book {
 	@Column(name = "book_updated_time", nullable = false)
 	private LocalDateTime bookUpdatedTime;
 	
-//	@OneToMany(cascade = CascadeType.ALL)
-//	@JoinColumn(name = "book_id")
-//	private List<ReviewAndRating> reviewRating;
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "book_id")
+	private List<ReviewRating> reviewRating;
 
 	
 

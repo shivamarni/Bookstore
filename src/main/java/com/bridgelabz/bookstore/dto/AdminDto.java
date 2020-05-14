@@ -26,11 +26,11 @@ public class AdminDto {
 	@NotNull
 	@Email
 	private String email;
-	@NotNull
+	@NotNull(message = "password required for registration...")
+	@Size(min = 6,max = 25,message = "password must be in length of 7-25 only")
 	private String password;
 	private LocalDateTime createdTime;
 	private LocalDateTime updatedTime;
-	@NotNull
-	
+	@NotNull(message="phone number required for registration")
 	private Long phoneNumber;
 }

@@ -30,10 +30,10 @@ public class Admin {
 	@Column(name = "password", nullable = false)
 	private String password;
 	@Column(name = "phoneNumber", nullable = false)
-	private String phoneNumber;
+	private Long phoneNumber;
 	@Column(name = "created_time", nullable = false)
 	private LocalDateTime createdTime;
-	@Column(name = "updated_time", nullable = false)
+	
 	private LocalDateTime updatedTime;
 	@Column(name = "verified", nullable = false)
 	private boolean verified;

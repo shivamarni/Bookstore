@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService {
 	private BCryptPasswordEncoder pwdBcrypt;
 	@Override
 	public User registerUser(UserDto userdto) throws BookStoreException {
-		isEmailExists(userdto.getEmail());
+		if(userrepo.getUserByEmail(userdto.getEmail()).isPresent()==false) {
 		User user=new User();
 		BeanUtils.copyProperties(userdto, user);
 		user.setPassword(pwdBcrypt.encode(userdto.getPassword()));
@@ -34,6 +34,11 @@ public class UserServiceImpl implements UserService {
 		User user2=userrepo.save(user);
 		JmsUtility.sendEmail(userdto.getEmail(),"verification email","http://localhost:8085/user/verify/"+JWTUtility.jwtToken(user2.getUserId()));
 		return user2;
+		}
+		else
+		{
+			throw new BookStoreException("Email already exists",HttpStatus.BAD_REQUEST);
+		}
 	}
 
 	@Override

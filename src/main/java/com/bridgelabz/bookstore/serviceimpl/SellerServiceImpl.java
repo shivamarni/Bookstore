@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.bridgelabz.bookstore.dto.ForgetPassword;
 import com.bridgelabz.bookstore.dto.LoginDto;
 import com.bridgelabz.bookstore.dto.UserDto;
 import com.bridgelabz.bookstore.entity.Seller;
@@ -22,8 +23,6 @@ import com.bridgelabz.bookstore.utility.JmsUtility;
 @Service
 public class SellerServiceImpl implements SellerService {
 	@Autowired
-	private UserRepository userrepo;
-	@Autowired
 	private SellerRepository sellerrepo;
 	@Autowired
 	private BCryptPasswordEncoder pwdBcrypt;
@@ -31,6 +30,8 @@ public class SellerServiceImpl implements SellerService {
 	@Override
 	public Seller registerSeller(UserDto userdto) throws BookStoreException {
 		//isEmailExists(userdto.getEmail());
+		if(sellerrepo.getSellerByEmail(userdto.getEmail()).isPresent()==false)
+		{
 		Seller seller=new Seller();
 		BeanUtils.copyProperties(userdto, seller);
 		seller.setPassword(pwdBcrypt.encode(userdto.getPassword()));
@@ -38,6 +39,12 @@ public class SellerServiceImpl implements SellerService {
 		sellerrepo.save(seller);
 		JmsUtility.sendEmail(userdto.getEmail(),"verification email","http://localhost:8085/seller/verify/"+JWTUtility.jwtToken(seller.getSellerId()));
 		return seller;
+		}
+		else {
+			
+			throw new BookStoreException("email already registered",HttpStatus.BAD_REQUEST);
+		}
+		
 	
 	}
 
@@ -78,7 +85,12 @@ public class SellerServiceImpl implements SellerService {
 		return null;
 	}
 	
-	
+	public Seller resetPassword(String email, ForgetPassword forgotDto) throws BookStoreException {
+		Seller seller=getSellerByEmail(email);
+		seller.setPassword(pwdBcrypt.encode(forgotDto.getPassword()));
+		sellerrepo.save(seller);
+		return seller;
+	}
 
 	@Override
 	public void deleteSeller(Long userId) {

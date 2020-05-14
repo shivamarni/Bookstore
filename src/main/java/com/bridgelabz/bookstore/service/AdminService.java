@@ -1,20 +1,18 @@
 package com.bridgelabz.bookstore.service;
 
-import com.bridgelabz.bookstore.dto.AdminDto;
-import com.bridgelabz.bookstore.dto.AdminResetPasswordDto;
+import com.bridgelabz.bookstore.dto.ForgetPassword;
 import com.bridgelabz.bookstore.dto.LoginDto;
+import com.bridgelabz.bookstore.dto.UserDto;
 import com.bridgelabz.bookstore.entity.Admin;
+import com.bridgelabz.bookstore.entity.Seller;
+import com.bridgelabz.bookstore.exception.BookStoreException;
 
 public interface AdminService {
-	Admin login(LoginDto adminLoginDto);
-
-	boolean sendLinkForPassword(String email);
-
-	boolean resetAdminPassword(AdminResetPasswordDto resetDto);
-
-	boolean verifyEmail(String token);
-
-	boolean register(AdminDto adminDto);
-
-	boolean verifyBook(String booktoken,String token);
+	
+	Admin registerAdmin(UserDto userdto)throws BookStoreException;
+	Admin loginAdmin(LoginDto dto) throws BookStoreException;
+	Admin verify(String token) throws BookStoreException;
+    Admin forgotPassword(String email) throws BookStoreException;
+    Admin resetPassword(String email, ForgetPassword forgotDto) throws BookStoreException;
+    Admin getAdminById(Long adminId) throws BookStoreException;
 }

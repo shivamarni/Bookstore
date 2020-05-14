@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.bridgelabz.bookstore.dto.AddressDto;
@@ -41,18 +42,41 @@ public class AddressServiceImpl implements AddressService {
 	}
 
 	@Override
-	public Address updateAddress(AddressDto addressDto, String token, Long addressId) {
-		return null;
+	public Address updateAddress(AddressDto addressDto, String token, Long addressId) throws BookStoreException {
+		Long userId=JWTUtility.parseJWT(token);
+		User user=userimpl.getUserById(userId);
+		Address address=getAddressById(addressId, userId);
+		BeanUtils.copyProperties(addressDto, address);
+		address.setUpdatedtime(LocalDateTime.now());
+		addressrepo.save(address);
+		return address;
 	}
 
 	@Override
-	public void deleteAddress(String token, Long addressId) {
-		
+	public void deleteAddress(String token, Long addressId) throws BookStoreException {
+		Long userId=JWTUtility.parseJWT(token);
+		User user=userimpl.getUserById(userId);
+		Address address=getAddressById(addressId, userId);
+		addressrepo.delete(address);
+		userrepo.save(user);
 	}
 
 	@Override
-	public List<Address> getAllAddresses(String token) {
-		return null;
+	public List<Address> getAllAddresses(String token) throws BookStoreException {
+		Long userId=JWTUtility.parseJWT(token);
+		User user=userimpl.getUserById(userId);
+		return user.getAddresses();
 	}
 
+	@Override
+	public Address getAddressById(Long addressId,Long userId) throws BookStoreException {
+		Address address=addressrepo.getAddressById(addressId,userId).orElseThrow(()-> new BookStoreException("no address present",HttpStatus.NOT_FOUND));
+		return address;
+	}
+
+	public void deleteAllAddresses(String token) throws BookStoreException {
+		Long userId=JWTUtility.parseJWT(token);
+		User user=userimpl.getUserById(userId);
+		addressrepo.deleteAllAddresses(userId);	
+	}
 }

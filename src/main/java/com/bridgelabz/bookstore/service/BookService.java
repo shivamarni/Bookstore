@@ -1,6 +1,6 @@
 package com.bridgelabz.bookstore.service;
 
-<<<<<<< HEAD
+
 import java.util.List;
 
 import com.bridgelabz.bookstore.dto.BookDto;
@@ -16,12 +16,6 @@ public interface BookService {
 	public List<Book> getBooksSortedByPriceHigh(String token) throws BookStoreException;
 	public List<Book> getBooksSortedByArrival(String token) throws BookStoreException;
 		
-=======
-import com.bridgelabz.bookstore.dto.BookDto;
-import com.bridgelabz.bookstore.entity.Book;
 
-public interface BookService {
-	public Book addBook(BookDto bookDTO, String token);
->>>>>>> 800affb1144313b22ed2832664e2e5bedce03919
 
 }

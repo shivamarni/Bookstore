@@ -10,8 +10,6 @@ import org.springframework.stereotype.Repository;
 
 import com.bridgelabz.bookstore.entity.Book;
 import com.bridgelabz.bookstore.entity.Seller;
-
-
 @Repository
 public class BookRepository {
 

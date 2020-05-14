@@ -28,9 +28,9 @@ public class SellerDto {
 	@NotNull(message = "phone number required for registration...")
 	private Long phoneNumber; 
 	
-	@NotNull
+	@NotNull(message = "country required for registration...")
 	private String country;
 	
-	@NotNull
+	@NotNull(message = "zipcode required for registration...")
 	private Long zipCode;
 }

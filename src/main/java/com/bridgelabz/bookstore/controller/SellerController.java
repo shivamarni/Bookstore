@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bridgelabz.bookstore.dto.ForgetPassword;
 import com.bridgelabz.bookstore.dto.LoginDto;
+import com.bridgelabz.bookstore.dto.SellerDto;
 import com.bridgelabz.bookstore.dto.UserDto;
 import com.bridgelabz.bookstore.entity.Seller;
 import com.bridgelabz.bookstore.entity.User;
@@ -37,9 +38,9 @@ public class SellerController {
 
 	@Transactional
 	@PostMapping("/register")
-	public ResponseEntity<Response> registerUser(@Valid @RequestBody UserDto userdto, BindingResult result)
+	public ResponseEntity<Response> registerUser(@Valid @RequestBody SellerDto sellerdto, BindingResult result)
 			throws BookStoreException {
-		Seller seller = sellerimpl.registerSeller(userdto);
+		Seller seller = sellerimpl.registerSeller(sellerdto);
 		return new ResponseEntity<Response>(new Response("seller registered", seller, 200),
 				HttpStatus.CREATED);
 

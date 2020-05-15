@@ -13,7 +13,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
 
@@ -57,9 +60,12 @@ public class Book {
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "book_id")
 	private List<ReviewRating> reviewRating;
-	
+	@JsonIgnore
 	@ManyToMany(cascade = CascadeType.ALL,fetch=FetchType.LAZY,mappedBy = "booklist")
 	private List<Cart> cartlist;
+	
+	@OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "book")
+	private Quantity quantity;
 	
 
 }

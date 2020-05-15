@@ -11,4 +11,8 @@ public interface CartService {
 	List<Book> deleteBookFromCart(Long bookId,String token);
 	void deleteAllBooksFromCart(String token);
 	Book updateBookQuantityInCart(Long bookId,String token);
+	Book getCartBook(Long bookId, String token) throws BookStoreException;
+	List<Book> getAllCartBooks(String token) throws BookStoreException;
+	void deleteAllCartBooks(String token) throws BookStoreException;
+	List<Book> deleteCartBook(Long bookId, String token) throws BookStoreException;
 }

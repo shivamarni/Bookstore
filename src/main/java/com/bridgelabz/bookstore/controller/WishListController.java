@@ -17,6 +17,7 @@ import com.bridgelabz.bookstore.response.Response;
 import com.bridgelabz.bookstore.serviceimpl.CartServiceImpl;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 @RestController
 @Api(description=" wishlist in Book Store")
@@ -26,6 +27,7 @@ public class WishListController {
 	@Autowired
 	private CartServiceImpl cartImpl;
 	@PostMapping("/addbooktocart/{bookId}")
+	@ApiOperation(value = "adding books to cart",response = Iterable.class)
 	public ResponseEntity<Response> addBookToCart(@PathVariable("bookId") Long bookId,@RequestHeader String token) throws BookStoreException
 	{
 		List<Book> cartBooks=cartImpl.addBookToCart(bookId, token);
@@ -33,6 +35,7 @@ public class WishListController {
 	}
 	
 	@GetMapping("/allcartbooks")
+	@ApiOperation(value = "get all books from cart",response = Iterable.class)
 	public ResponseEntity<Response> getAllCartBooks(@RequestHeader String token) throws BookStoreException
 	{
 		List<Book> cartBooks=cartImpl.getAllCartBooks(token);
@@ -40,6 +43,7 @@ public class WishListController {
 	}
 	
 	@GetMapping("/wishlistbook/{bookId}")
+	@ApiOperation(value = "get wishlist books",response = Iterable.class)
 	public ResponseEntity<Response> getCartBook(@PathVariable("bookId") Long bookId,@RequestHeader String token) throws BookStoreException
 	{
 		Book book=cartImpl.getCartBook(bookId, token);
@@ -47,6 +51,7 @@ public class WishListController {
 	}
 	
 	@DeleteMapping("/allcartbooks")
+	@ApiOperation(value = "remove books from cart",response = Iterable.class)
 	public ResponseEntity<Response> deleteAllCartBooks(@RequestHeader String token) throws BookStoreException
 	{
 		cartImpl.deleteAllCartBooks(token);
@@ -54,6 +59,7 @@ public class WishListController {
 	}
 	
 	@DeleteMapping("/wishlistbook/{bookId}")
+	@ApiOperation(value = "remove books from wishlist",response = Iterable.class)
 	public ResponseEntity<Response> deleteCartBook(@PathVariable("bookId") Long bookId,@RequestHeader String token) throws BookStoreException
 	{
 		List<Book> cartBooks=cartImpl.deleteCartBook(bookId,token);

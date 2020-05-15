@@ -1,10 +1,16 @@
 package com.bridgelabz.bookstore.repository;
 
+import java.util.List;
+import java.util.Optional;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
 
 import org.hibernate.Session;
+import org.hibernate.query.Query;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Repository;
 
 import com.bridgelabz.bookstore.entity.Quantity;
@@ -39,5 +45,14 @@ public class QuantityRepository {
 		}
 	}
 	
+	public List<Quantity> getAllQuantity() {
+		Session session = entityManager.unwrap(Session.class);
+		Query query=session.createQuery("  from Quantity");
+		List<Quantity> quantityList=query.list();
+		return quantityList;
+		
 
+
+		
+	}
 }

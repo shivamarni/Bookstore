@@ -1,9 +1,12 @@
 package com.bridgelabz.bookstore.serviceimpl;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -28,8 +31,9 @@ public class QuantityServiceImplemention implements QuantityService {
 
 	@Override
 	@Transactional
+	@Modifying
 	public Quantity mapQuantityToBook(Long bookId, QuantityDto quantityDto) throws BookStoreException {
-
+		boolean flag=false;
 		Book book = bookService.getBookById(bookId);
 		Quantity quantity = new Quantity();
 		BeanUtils.copyProperties(quantityDto, quantity);
@@ -40,6 +44,27 @@ public class QuantityServiceImplemention implements QuantityService {
 			book.setNoOfBooks(updatedBookQuantity);
 			boolean stockStaus=quantityrepo.updateBookStock(bookId, quantity.getCartQuantity());
 			
+			
+			List<Quantity> quantityList=quantityrepo.getAllQuantity();
+			for(Quantity quant:quantityList)
+			{
+				if(quant.getBook().getBookId().equals(bookId))
+				{
+					flag=true;
+					break;
+				}
+			}
+			if(flag==false)
+			{
+				quantity.setBook(book);
+				
+				quantityrepo.save(quantity);
+				book.setQuantity(quantity);
+				bookrepo.save(book);
+			}
+			else {
+				quantityrepo.updateBookStock(bookId, quantity.getCartQuantity());
+			}
 		}
 
 		else {

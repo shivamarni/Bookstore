@@ -43,7 +43,7 @@ public class CartServiceImpl implements CartService{
 		{
 		cart.setCreatedTime(LocalDateTime.now());
 		user.setCart(cart);
-		cart.setUser(user);
+		userrepo.save(user);
 		}
 		cart=user.getCart();
 		Optional<Book> isBook =cart.getBooklist().stream().filter(isBookExists -> isBookExists.getBookId() == bookId).findFirst();
@@ -51,6 +51,7 @@ public class CartServiceImpl implements CartService{
 			throw new BookStoreException("Book already exists",HttpStatus.BAD_REQUEST);
 		cart.getBooklist().add(book);
 		return cart.getBooklist();
+
 	}
 
 	@Override

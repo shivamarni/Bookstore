@@ -45,6 +45,7 @@ public class User {
 	
 	@OneToOne(cascade = CascadeType.ALL,fetch=FetchType.LAZY,mappedBy = "user", optional = false)
 	private Cart cart;
+
 	
 	@OneToMany(cascade = CascadeType.ALL,fetch=FetchType.LAZY,targetEntity = Address.class)
 	@JoinColumn(name="userId")

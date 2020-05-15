@@ -68,14 +68,14 @@ public class SellerController {
 
 	}
 	
-	@PostMapping("seller/forgotPassword")
+	@PostMapping("/forgotPassword")
 	@ApiOperation(value = "seller forget password",response = Iterable.class)
 	public ResponseEntity<Response> forgotPassword(@RequestHeader String email) throws BookStoreException
 	{
 		Seller seller=sellerimpl.forgotPassword(email);
 		return new ResponseEntity<Response>(new Response("reset password link sent to email....", seller, 200),HttpStatus.CREATED);
 	}
-	@PutMapping("/resetPassword/{email}")
+	@PutMapping("/resetpassword/{email}")
 	@ApiOperation(value = "seller reset password",response = Iterable.class)
 	public ResponseEntity<Response> resetPassword(@PathVariable("email") String email,@RequestBody ForgetPassword forgotdto ) throws BookStoreException
 	{

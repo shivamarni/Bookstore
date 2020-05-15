@@ -58,7 +58,7 @@ public class CartController {
 		return new ResponseEntity<Response>(new Response("all books deleted from cart",null, 200),HttpStatus.OK);
 	}
 	
-	@DeleteMapping("/CartBook/{bookId}")
+	@DeleteMapping("/cartbook/{bookId}")
 	@ApiOperation(value = "removing book from cart",response = Iterable.class)
 	public ResponseEntity<Response> deleteCartBook(@PathVariable("bookId") Long bookId,@RequestHeader String token) throws BookStoreException
 	{

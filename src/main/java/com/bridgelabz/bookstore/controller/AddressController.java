@@ -44,7 +44,7 @@ public class AddressController {
 		return new ResponseEntity<Response>(new Response("address added", address, 200),HttpStatus.CREATED);
 	}
 	
-	@PutMapping("/updateAddress")
+	@PutMapping("/updateaddress")
 	public ResponseEntity<Response> updateAddress(@Valid @RequestBody AddressDto addressDto,@RequestHeader String token,@RequestHeader Long addressId,BindingResult result) throws BookStoreException
 	{
 		if (result.hasErrors())
@@ -52,28 +52,28 @@ public class AddressController {
 		Address address=addressimpl.updateAddress(addressDto, token,addressId);
 		return new ResponseEntity<Response>(new Response("address updated", address, 200),HttpStatus.CREATED);
 	}
-	@GetMapping("/AddressById")
+	@GetMapping("/addressbyid")
 	public ResponseEntity<Response> getAddressById(Long addressId,Long userId) throws BookStoreException
 	{
 		Address address=addressimpl.getAddressById(addressId, userId);
 		return new ResponseEntity<Response>(new Response("address is",address, 200),HttpStatus.CREATED);
 	}
 	
-	@GetMapping("/AllAddresses")
+	@GetMapping("/alladdresses")
 	public ResponseEntity<Response> getAllAddresses(String token) throws BookStoreException
 	{
 		List<Address> addresses=addressimpl.getAllAddresses(token);
 		return new ResponseEntity<Response>(new Response("address is",addresses, 200),HttpStatus.CREATED);
 	}
 	
-	@DeleteMapping("/AddressById/{addressId}")
+	@DeleteMapping("/addressbyid/{addressId}")
 	public ResponseEntity<Response> deleteAddress(String token,@PathVariable("addressId") Long addressId) throws BookStoreException
 	{
 		addressimpl.deleteAddress(token,addressId);
 		return new ResponseEntity<Response>(new Response("address deleted",null, 200),HttpStatus.CREATED);
 	}
 	
-	@DeleteMapping("/AllAddresses")
+	@DeleteMapping("/alladdresses")
 	public ResponseEntity<Response> deleteAllAddresses(String token) throws BookStoreException
 	{
 		addressimpl.deleteAllAddresses(token);

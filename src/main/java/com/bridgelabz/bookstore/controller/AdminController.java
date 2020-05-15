@@ -62,14 +62,14 @@ public class AdminController {
 		Admin admin=adminimpl.verify(token);
 		return new ResponseEntity<Response>(new Response("user is verified", admin, 200),HttpStatus.OK);
 	}
-	@PostMapping("/forgotPassword")
+	@PostMapping("/forgotpassword")
 	@ApiOperation(value = "Admin forgot password",response = Iterable.class)
 	public ResponseEntity<Response> forgotPassword(@RequestHeader String email) throws BookStoreException
 	{
 		Admin admin=adminimpl.forgotPassword(email);
 		return new ResponseEntity<Response>(new Response("reset password link sent to email....", admin, 200),HttpStatus.CREATED);
 	}
-	@PutMapping("/resetPassword/{email}")
+	@PutMapping("/resetpassword/{email}")
 	@ApiOperation(value = "Admin ResetPassword",response = Iterable.class)
 	public ResponseEntity<Response> resetPassword(@PathVariable("email") String email,@RequestBody ForgetPassword forgotdto ) throws BookStoreException
 	{

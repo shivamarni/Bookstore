@@ -33,7 +33,7 @@ public class UserController {
 	
 	@Autowired
 	private UserServiceImpl userimpl;
-	@PostMapping("/register/")
+	@PostMapping("/register")
 	@ApiOperation(value = "user registration",response = Iterable.class)
 	public ResponseEntity<Response> registerUser(@Valid @RequestBody UserDto userdto,BindingResult result) throws BookStoreException
 	{
@@ -46,7 +46,7 @@ public class UserController {
 	
 	@PostMapping("/login")
 	@ApiOperation(value = "user Login",response = Iterable.class)
-	public ResponseEntity<Response> registerUser(@Valid @RequestBody LoginDto logindto,BindingResult result) throws BookStoreException
+	public ResponseEntity<Response> loginUser(@Valid @RequestBody LoginDto logindto,BindingResult result) throws BookStoreException
 	{
 		if (result.hasErrors())
 		return new ResponseEntity<Response>(new Response(result.getAllErrors().get(0).getDefaultMessage(),null,400),HttpStatus.BAD_REQUEST);
@@ -55,21 +55,21 @@ public class UserController {
 
 	}
 	
-	@PostMapping("user/forgetPassword")
+	@PostMapping("/forgetpassword")
 	@ApiOperation(value = "user forget password",response = Iterable.class)
 	public ResponseEntity<Response> forgotPassword(@RequestHeader String email) throws BookStoreException
 	{
 		User user=userimpl.forgotPassword(email);
 		return new ResponseEntity<Response>(new Response("reset password link sent to email....", user, 200),HttpStatus.CREATED);
 	}
-	@GetMapping("user/verify/{token}")
+	@GetMapping("/verify/{token}")
 	@ApiOperation(value = "verifying user",response = Iterable.class)
 	public ResponseEntity<Response> verifyuser(@PathVariable("token") String token) throws BookStoreException
 	{
 		User user=userimpl.verify(token);
 		return new ResponseEntity<Response>(new Response("user is verified", user, 200),HttpStatus.OK);
 	}
-	@PutMapping("/resetPassword/{email}")
+	@PutMapping("/resetpassword/{email}")
 	@ApiOperation(value = "user reset password",response = Iterable.class)
 	public ResponseEntity<Response> resetPassword(@PathVariable("email") String email,@RequestBody ForgetPassword forgotdto ) throws BookStoreException
 	{

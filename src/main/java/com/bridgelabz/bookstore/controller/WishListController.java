@@ -19,8 +19,8 @@ import com.bridgelabz.bookstore.serviceimpl.CartServiceImpl;
 import io.swagger.annotations.Api;
 
 @RestController
-@Api(description=" Cart in Book Store")
-@RequestMapping("cart")
+@Api(description=" wishlist in Book Store")
+@RequestMapping("wishlist")
 public class WishListController {
 	
 	@Autowired
@@ -39,7 +39,7 @@ public class WishListController {
 		return new ResponseEntity<Response>(new Response("all books from cart", cartBooks, 200),HttpStatus.OK);
 	}
 	
-	@GetMapping("/CartBook/{bookId}")
+	@GetMapping("/wishlistbook/{bookId}")
 	public ResponseEntity<Response> getCartBook(@PathVariable("bookId") Long bookId,@RequestHeader String token) throws BookStoreException
 	{
 		Book book=cartImpl.getCartBook(bookId, token);
@@ -53,7 +53,7 @@ public class WishListController {
 		return new ResponseEntity<Response>(new Response("all books deleted from cart",null, 200),HttpStatus.OK);
 	}
 	
-	@DeleteMapping("/CartBook/{bookId}")
+	@DeleteMapping("/wishlistbook/{bookId}")
 	public ResponseEntity<Response> deleteCartBook(@PathVariable("bookId") Long bookId,@RequestHeader String token) throws BookStoreException
 	{
 		List<Book> cartBooks=cartImpl.deleteCartBook(bookId,token);

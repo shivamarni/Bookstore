@@ -42,7 +42,7 @@ public class CartController {
 		return new ResponseEntity<Response>(new Response("all books from cart", cartBooks, 200),HttpStatus.OK);
 	}
 	
-	@GetMapping("/CartBook/{bookId}")
+	@GetMapping("/cartbook/{bookId}")
 	@ApiOperation(value = "get book from cart",response = Iterable.class)
 	public ResponseEntity<Response> getCartBook(@PathVariable("bookId") Long bookId,@RequestHeader String token) throws BookStoreException
 	{

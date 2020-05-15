@@ -52,16 +52,6 @@ public class CartServiceImpl implements CartService{
 		cart.getBooklist().add(book);
 		return cart.getBooklist();
 	}
-	//public boolean isBookExistsInCart(Long bookId,Long )
-	@Override
-	public List<Book> deleteBookFromCart(Long bookId, String token) {
-		return null;
-	}
-
-	@Override
-	public void deleteAllBooksFromCart(String token) {
-		
-	}
 
 	@Override
 	public Book updateBookQuantityInCart(Long bookId, String token) {
@@ -99,7 +89,7 @@ public class CartServiceImpl implements CartService{
 		Book book=bookImpl.getBookById(bookId);
 		Cart cart=user.getCart();
 		Book book2=cart.getBooklist().stream().filter(book1 -> book1.getBookId()==bookId).findFirst().orElseThrow(()-> new BookStoreException("no book in the cart",HttpStatus.NOT_FOUND));
-		cart.getBooklist().remove(book2.getBookId());
+		cart.getBooklist().remove(book2);
 		cartrepo.save(cart);
 		return cart.getBooklist();
 	}

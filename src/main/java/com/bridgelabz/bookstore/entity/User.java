@@ -54,7 +54,7 @@ public class User {
 	@JoinColumn(name="userId")
 	private List<OrderedBooks> orderedBooks;
 	
-	@ManyToMany(cascade = CascadeType.ALL,fetch =FetchType.LAZY)
-	private List<Book> wishlistbooks;
+	@OneToOne(cascade = CascadeType.ALL,fetch=FetchType.LAZY,mappedBy = "user", optional = false)
+	private WishList wishlist;
 	
 }

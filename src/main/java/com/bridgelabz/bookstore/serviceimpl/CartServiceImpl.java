@@ -31,6 +31,8 @@ public class CartServiceImpl implements CartService{
 	@Autowired
 	private CartRepository cartrepo;
 	@Autowired
+	private CartServiceImpl cartservice;
+	@Autowired
 	private UserRepository userrepo;
 	@Override
 	@Transactional
@@ -38,20 +40,8 @@ public class CartServiceImpl implements CartService{
 		Long userId=JWTUtility.parseJWT(token);
 		User user=userImpl.getUserById(userId);
 		Book book=bookImpl.getBookById(bookId);
-		Cart cart=new Cart();
-		if(user.getCart()==null)
-		{
-		cart.setCreatedTime(LocalDateTime.now());
-		user.setCart(cart);
-		userrepo.save(user);
-		}
-		cart=user.getCart();
-		Optional<Book> isBook =cart.getBooklist().stream().filter(isBookExists -> isBookExists.getBookId() == bookId).findFirst();
-		if(isBook.isPresent())
-			throw new BookStoreException("Book already exists",HttpStatus.BAD_REQUEST);
-		cart.getBooklist().add(book);
-		return cart.getBooklist();
-
+		user.getCart().getBooklist().add(book);
+		return user.getCart().getBooklist();
 	}
 
 	@Override

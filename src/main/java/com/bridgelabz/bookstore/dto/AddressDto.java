@@ -3,8 +3,11 @@ package com.bridgelabz.bookstore.dto;
 import javax.validation.constraints.NotNull;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Setter
+@Getter
 public class AddressDto {
 	
 	@NotNull(message = "country name is required")

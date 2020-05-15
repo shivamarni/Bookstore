@@ -11,8 +11,10 @@ import org.springframework.stereotype.Service;
 import com.bridgelabz.bookstore.dto.ForgetPassword;
 import com.bridgelabz.bookstore.dto.LoginDto;
 import com.bridgelabz.bookstore.dto.UserDto;
+import com.bridgelabz.bookstore.entity.Cart;
 import com.bridgelabz.bookstore.entity.User;
 import com.bridgelabz.bookstore.exception.BookStoreException;
+import com.bridgelabz.bookstore.repository.CartRepository;
 import com.bridgelabz.bookstore.repository.UserRepository;
 import com.bridgelabz.bookstore.service.UserService;
 import com.bridgelabz.bookstore.utility.JWTUtility;
@@ -24,6 +26,8 @@ public class UserServiceImpl implements UserService {
 	private UserRepository userrepo;
 	@Autowired
 	private BCryptPasswordEncoder pwdBcrypt;
+	@Autowired
+	private CartRepository cartrepo;
 	@Override
 	public User registerUser(UserDto userdto) throws BookStoreException {
 		if(userrepo.getUserByEmail(userdto.getEmail()).isPresent()==false) {
@@ -33,13 +37,17 @@ public class UserServiceImpl implements UserService {
 		user.setCreatedDate(LocalDateTime.now());
 		user.setUpdatedDate(LocalDateTime.now());
 		User user2=userrepo.save(user);
+		Cart cart=new Cart();
+		cart.setCreatedTime(LocalDateTime.now());
+		user.setCart(cart);
+		cart.setUser(user);
+		cartrepo.save(cart);
+		userrepo.save(user);
 		JmsUtility.sendEmail(userdto.getEmail(),"verification email","http://localhost:8085/user/verify/"+JWTUtility.jwtToken(user2.getUserId()));
 		return user2;
 		}
 		else
-		{
 			throw new BookStoreException("Email already exists",HttpStatus.BAD_REQUEST);
-		}
 	}
 
 	@Override

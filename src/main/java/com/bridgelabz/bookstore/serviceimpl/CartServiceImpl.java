@@ -36,29 +36,17 @@ public class CartServiceImpl implements CartService{
 		Long userId=JWTUtility.parseJWT(token);
 		User user=userImpl.getUserById(userId);
 		Book book=bookImpl.getBookById(bookId);
-//		Employee employee = new Employee();
-//		employee.setFirstName("Julez");
-//		employee.setLastName("Jupiter");
-//
-//		Security security = new Security();
-//		security.setUsername("julez");
-//		security.setPassword("pwd");
-//
-//		employee.setSecurity(security);
-//		security.setEmployee(employee);
-//
-//		employeeRepository.save(employee);
+		
 		Cart cart=new Cart();
 		cart.setCreatedTime(LocalDateTime.now());
 		user.setCart(cart);
 		cart.setUser(user);
-		List<Book> books=cart.getBooklist();
-		if(books==null)
-		{
-			ArrayList<Book> booklist = new ArrayList<>();
-			booklist.add(book);
-		}
+		
 		userrepo.save(user);
+		cart=user.getCart();
+		cart.getBooklist().add(book);
+		
+		
 		return null;
 	}
 	

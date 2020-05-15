@@ -32,7 +32,7 @@ public class Cart {
 	
 	private LocalDateTime createdTime;
 	
-	@ManyToMany(cascade = CascadeType.ALL,fetch=FetchType.EAGER)
+	@ManyToMany(cascade = CascadeType.ALL)
 	private List<Book> booklist;
 	
 	@OneToOne(cascade = CascadeType.ALL,fetch=FetchType.LAZY,optional = false)

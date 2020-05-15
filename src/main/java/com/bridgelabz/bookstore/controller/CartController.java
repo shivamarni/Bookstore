@@ -27,7 +27,7 @@ public class CartController {
 	@Autowired
 	private CartServiceImpl cartImpl;
 	@PostMapping("/addbooktocart/{bookId}")
-	@ApiOperation(value = "adding books to the  cart",response = Iterable.class)
+	@ApiOperation(value = "adding books to the cart",response = Iterable.class)
 	public ResponseEntity<Response> addBookToCart(@PathVariable("bookId") Long bookId,@RequestHeader String token) throws BookStoreException
 	{
 		List<Book> cartBooks=cartImpl.addBookToCart(bookId, token);

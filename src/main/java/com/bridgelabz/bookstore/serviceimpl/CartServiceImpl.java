@@ -43,9 +43,11 @@ public class CartServiceImpl implements CartService{
 		{
 		cart.setCreatedTime(LocalDateTime.now());
 		user.setCart(cart);
+		cart.setUser(user);
 		userrepo.save(user);
 		}
 		cart=user.getCart();
+		System.out.println(cart);
 		Optional<Book> isBook =cart.getBooklist().stream().filter(isBookExists -> isBookExists.getBookId() == bookId).findFirst();
 		if(isBook.isPresent())
 			throw new BookStoreException("Book already exists",HttpStatus.BAD_REQUEST);

@@ -20,6 +20,7 @@ import com.bridgelabz.bookstore.response.Response;
 import com.bridgelabz.bookstore.service.BookService;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 @RestController
 @Api(description="Book Store details")
@@ -31,6 +32,7 @@ public class BookController {
 	private BookService bookService;
 
 	@PostMapping("/add")
+	@ApiOperation(value = "add book details",response = Iterable.class)
 	public ResponseEntity<Response> addBook(@RequestBody BookDto bookDTO, @RequestHeader(name = "token") String token)
 			throws BookStoreException {
 		Book book = bookService.addBook(bookDTO, token);
@@ -38,6 +40,7 @@ public class BookController {
 	}
 
 	@PostMapping("/update/{bookId}")
+	@ApiOperation(value = "update book details",response = Iterable.class)
 	public ResponseEntity<Response> updateBook(@RequestBody BookDto bookDTO, @RequestHeader("token") String token,
 			@PathVariable("bookId") Long bookId) throws BookStoreException {
 		Book book = bookService.updateBook(bookDTO, token, bookId);
@@ -46,6 +49,7 @@ public class BookController {
 	}
 
 	@PostMapping("/delete/{bookId}")
+	@ApiOperation(value = "delete book details",response = Iterable.class)
 	public ResponseEntity<Response> deleteBook(@RequestHeader("token") String token,
 			@PathVariable("bookId") Long bookId) throws BookStoreException {
 		Book book = bookService.deleteBook(token, bookId);
@@ -54,6 +58,7 @@ public class BookController {
 	}
 
 	@GetMapping("/sortedbypricelow/{token}")
+	@ApiOperation(value = "book details sorted by price low-higher order",response = Iterable.class)
 	public ResponseEntity<Response> sortedByPriceLow(@RequestHeader("token") String token) throws BookStoreException {
 		List<Book> priceLowSortedList = bookService.getBooksSortedByPriceLow(token);
 		return new ResponseEntity<Response>(new Response("sorted book by price low", priceLowSortedList, 200),
@@ -62,6 +67,7 @@ public class BookController {
 	}
 
 	@GetMapping("/sortedbypricehigh/{token}")
+	@ApiOperation(value = "book details sorted by price in high-lower order",response = Iterable.class)
 	public ResponseEntity<Response> sortedByPriceHigh(@RequestHeader("token") String token) throws BookStoreException {
 		List<Book> priceHighSortedList = bookService.getBooksSortedByPriceHigh(token);
 		return new ResponseEntity<Response>(new Response("sorted book by price high", priceHighSortedList, 200),
@@ -70,6 +76,7 @@ public class BookController {
 	}
 
 	@GetMapping("/sortedbyarrival/{token}")
+	@ApiOperation(value = "book details sorted by arrival",response = Iterable.class)
 	public ResponseEntity<Response> sortedByArrival(@RequestHeader("token") String token) throws BookStoreException {
 		List<Book> arrivalSortedList = bookService.getBooksSortedByPriceHigh(token);
 		return new ResponseEntity<Response>(new Response("sorted book by price high", arrivalSortedList, 200),
@@ -78,6 +85,7 @@ public class BookController {
 	}
 
 	@GetMapping("/getbookbyid/{bookId}")
+	@ApiOperation(value = "get books",response = Iterable.class)
 	public ResponseEntity<Response> getBookById(@PathVariable("bookId") Long bookId) throws BookStoreException {
 		Book book = bookService.getBookById(bookId);
 		return new ResponseEntity<Response>(new Response("book details", book, 200), HttpStatus.CREATED);

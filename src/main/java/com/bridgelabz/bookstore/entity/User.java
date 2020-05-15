@@ -43,12 +43,6 @@ public class User {
 	@Value("null")
 	private LocalDateTime updatedDate;
 	
-
-	
-	@OneToMany(cascade = CascadeType.ALL,fetch=FetchType.LAZY,targetEntity = Cart.class)
-	@JoinColumn(name="userId")
-	private List<Cart> cartBooks;
-
 	@OneToOne(cascade = CascadeType.ALL,fetch=FetchType.LAZY,mappedBy = "user", optional = false)
 	private Cart cart;
 

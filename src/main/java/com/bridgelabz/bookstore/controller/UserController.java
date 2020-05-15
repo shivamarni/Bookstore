@@ -24,6 +24,7 @@ import com.bridgelabz.bookstore.response.Response;
 import com.bridgelabz.bookstore.serviceimpl.UserServiceImpl;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 @RestController
 @Api(description=" User in Book Store")
@@ -33,6 +34,7 @@ public class UserController {
 	@Autowired
 	private UserServiceImpl userimpl;
 	@PostMapping("/register/")
+	@ApiOperation(value = "user registration",response = Iterable.class)
 	public ResponseEntity<Response> registerUser(@Valid @RequestBody UserDto userdto,BindingResult result) throws BookStoreException
 	{
 		if (result.hasErrors())
@@ -43,6 +45,7 @@ public class UserController {
 	}
 	
 	@PostMapping("/login")
+	@ApiOperation(value = "user Login",response = Iterable.class)
 	public ResponseEntity<Response> registerUser(@Valid @RequestBody LoginDto logindto,BindingResult result) throws BookStoreException
 	{
 		if (result.hasErrors())
@@ -52,19 +55,22 @@ public class UserController {
 
 	}
 	
-	@PostMapping("user/forgotPassword")
+	@PostMapping("user/forgetPassword")
+	@ApiOperation(value = "user forget password",response = Iterable.class)
 	public ResponseEntity<Response> forgotPassword(@RequestHeader String email) throws BookStoreException
 	{
 		User user=userimpl.forgotPassword(email);
 		return new ResponseEntity<Response>(new Response("reset password link sent to email....", user, 200),HttpStatus.CREATED);
 	}
 	@GetMapping("user/verify/{token}")
+	@ApiOperation(value = "verifying user",response = Iterable.class)
 	public ResponseEntity<Response> verifyuser(@PathVariable("token") String token) throws BookStoreException
 	{
 		User user=userimpl.verify(token);
 		return new ResponseEntity<Response>(new Response("user is verified", user, 200),HttpStatus.OK);
 	}
 	@PutMapping("/resetPassword/{email}")
+	@ApiOperation(value = "user reset password",response = Iterable.class)
 	public ResponseEntity<Response> resetPassword(@PathVariable("email") String email,@RequestBody ForgetPassword forgotdto ) throws BookStoreException
 	{
 		User user=userimpl.resetPassword(email,forgotdto);

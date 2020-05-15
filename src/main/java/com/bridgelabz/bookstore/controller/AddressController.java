@@ -35,7 +35,7 @@ public class AddressController {
 	
 	@Autowired
 	private AddressServiceImpl addressimpl;
-	@PostMapping("addAddress")
+	@PostMapping("add")
 	public ResponseEntity<Response> addAddress(@Valid @RequestBody AddressDto addressDto,@RequestHeader String token,BindingResult result) throws BookStoreException
 	{
 		if (result.hasErrors())

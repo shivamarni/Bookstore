@@ -26,6 +26,7 @@ import com.bridgelabz.bookstore.response.Response;
 import com.bridgelabz.bookstore.serviceimpl.AdminServiceImpl;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 @RestController
 @Api(description=" Admin controller for bookstore")
 @RequestMapping("admin")
@@ -34,6 +35,7 @@ public class AdminController {
 	private AdminServiceImpl adminimpl;
 	@Transactional
 	@PostMapping("/register")
+	@ApiOperation(value = "Admin registration",response = Iterable.class)
 	public ResponseEntity<Response> registerUser(@Valid @RequestBody UserDto userdto, BindingResult result)
 			throws BookStoreException {
 		Admin admin = adminimpl.registerAdmin(userdto);
@@ -44,6 +46,7 @@ public class AdminController {
 	}
 	@Transactional
 	@PostMapping("/login")
+	@ApiOperation(value = "Admin Login",response = Iterable.class)
 	public ResponseEntity<Response> loginUser(@Valid @RequestBody LoginDto logindto,BindingResult result) throws BookStoreException
 	{
 		Admin admin=adminimpl.loginAdmin(logindto);
@@ -52,6 +55,7 @@ public class AdminController {
 	}
 	@Transactional
 	@GetMapping("/verify/{token}")
+	@ApiOperation(value = "Admin verify",response = Iterable.class)
 	public ResponseEntity<Response> verifyAdmin(@PathVariable("token") String token) throws BookStoreException
 	{
 		System.out.println("inside verify");
@@ -59,12 +63,14 @@ public class AdminController {
 		return new ResponseEntity<Response>(new Response("user is verified", admin, 200),HttpStatus.OK);
 	}
 	@PostMapping("/forgotPassword")
+	@ApiOperation(value = "Admin forgot password",response = Iterable.class)
 	public ResponseEntity<Response> forgotPassword(@RequestHeader String email) throws BookStoreException
 	{
 		Admin admin=adminimpl.forgotPassword(email);
 		return new ResponseEntity<Response>(new Response("reset password link sent to email....", admin, 200),HttpStatus.CREATED);
 	}
 	@PutMapping("/resetPassword/{email}")
+	@ApiOperation(value = "Admin ResetPassword",response = Iterable.class)
 	public ResponseEntity<Response> resetPassword(@PathVariable("email") String email,@RequestBody ForgetPassword forgotdto ) throws BookStoreException
 	{
 		Admin admin=adminimpl.resetPassword(email,forgotdto);

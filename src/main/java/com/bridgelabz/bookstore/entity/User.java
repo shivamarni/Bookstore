@@ -19,10 +19,13 @@ import javax.persistence.Table;
 import org.springframework.beans.factory.annotation.Value;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name="user")
-@Data
+@Getter
+@Setter
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -5,7 +5,10 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import lombok.Data;
-@Data
+import lombok.Getter;
+import lombok.Setter;
+@Getter
+@Setter
 public class SellerDto {
 	@NotNull(message = "first name required for registration...")
 	@Pattern(regexp = "^[a-zA-Z]*", message = "Digits and Special characters are not allowed")

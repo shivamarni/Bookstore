@@ -8,10 +8,16 @@ import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.JoinColumn;
 
 
 @Entity
+@Getter
+@Setter
 @Table(name="review_and_rating")
 public class ReviewRating {
 

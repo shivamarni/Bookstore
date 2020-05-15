@@ -12,9 +12,12 @@ import javax.persistence.Table;
 import org.springframework.beans.factory.annotation.Value;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
-@Data
+@Setter
+@Getter
 @Table(name = "address")
 public class Address {
 	@Id

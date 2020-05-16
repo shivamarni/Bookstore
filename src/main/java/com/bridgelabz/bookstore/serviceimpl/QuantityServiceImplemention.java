@@ -1,3 +1,4 @@
+
 package com.bridgelabz.bookstore.serviceimpl;
 
 import java.util.List;
@@ -43,6 +44,8 @@ public class QuantityServiceImplemention implements QuantityService {
 			Long updatedBookQuantity = (book.getNoOfBooks() - quantity.getCartQuantity());
 			book.setNoOfBooks(updatedBookQuantity);
 			boolean stockStaus=quantityrepo.updateBookStock(bookId, quantity.getCartQuantity());
+			quantityrepo.save(quantity);
+
 			
 			
 			List<Quantity> quantityList=quantityrepo.getAllQuantity();

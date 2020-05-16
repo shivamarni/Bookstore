@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Value;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import net.minidev.json.annotate.JsonIgnore;
 
 @Entity
 @Table(name="user")
@@ -47,6 +48,7 @@ public class User {
 	private LocalDateTime updatedDate;
 	
 	@OneToOne(cascade = CascadeType.ALL,fetch=FetchType.LAZY,mappedBy = "user", optional = false)
+	@JsonIgnore
 	private Cart cart;
 
 	
@@ -59,6 +61,7 @@ public class User {
 	private List<OrderedBooks> orderedBooks;
 	
 	@OneToOne(cascade = CascadeType.ALL,fetch=FetchType.LAZY,mappedBy = "user", optional = false)
+	@JsonIgnore
 	private WishList wishlist;
 	
 }

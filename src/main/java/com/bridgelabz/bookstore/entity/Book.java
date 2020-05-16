@@ -68,6 +68,7 @@ public class Book {
 	private List<Cart> cartlist;
 	
 	@OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "book")
+	@JsonIgnore
 	private Quantity quantity;
 	
 

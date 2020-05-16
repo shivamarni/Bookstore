@@ -1,3 +1,4 @@
+
 package com.bridgelabz.bookstore.serviceimpl;
 
 import javax.transaction.Transactional;
@@ -39,7 +40,7 @@ public class QuantityServiceImplemention implements QuantityService {
 			Long updatedBookQuantity = (book.getNoOfBooks() - quantity.getCartQuantity());
 			book.setNoOfBooks(updatedBookQuantity);
 			boolean stockStaus=quantityrepo.updateBookStock(bookId, quantity.getCartQuantity());
-			
+			quantityrepo.save(quantity);
 		}
 
 		else {

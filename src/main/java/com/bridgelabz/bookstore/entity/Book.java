@@ -67,8 +67,7 @@ public class Book {
 	@ManyToMany(cascade = CascadeType.ALL,fetch=FetchType.LAZY,mappedBy = "booklist")
 	private List<Cart> cartlist;
 	
-	@OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "book")
-	@JsonIgnore
+	@OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "book",optional = false)
 	private Quantity quantity;
 	
 

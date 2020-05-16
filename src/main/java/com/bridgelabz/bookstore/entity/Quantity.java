@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
 
@@ -27,8 +28,9 @@ public class Quantity {
 	
 	private Long cartQuantity;
 	
-	@OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-	@JoinColumn(name = "bookId")
+	@OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY,optional = false)
+	@JoinColumn(name = "bookId", nullable = false)
+	@JsonIgnore
 	private Book book;
 
 }

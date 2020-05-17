@@ -16,7 +16,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import lombok.Data;
 import lombok.Getter;
@@ -26,6 +28,8 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name="book")
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class,scope = Book.class)
+
 public class Book {
 	
 	@Id

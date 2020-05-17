@@ -18,7 +18,6 @@ public class OrderServiceImpl {
 	@Autowired
 	private UserServiceImpl userImpl;
 	public List<Book> getAllOrders(String token) throws BookStoreException {
-		System.out.println("--------------------------------------------------------------");
 		Long userId=JWTUtility.parseJWT(token);
 		User user=userImpl.getUserById(userId);
 		System.out.println(user.getCart());

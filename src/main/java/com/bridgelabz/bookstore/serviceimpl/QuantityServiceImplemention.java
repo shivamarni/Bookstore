@@ -36,6 +36,7 @@ public class QuantityServiceImplemention implements QuantityService {
 	public Quantity mapQuantityToBook(Long bookId, QuantityDto quantityDto) throws BookStoreException {
 		boolean flag=false;
 		Book book = bookService.getBookById(bookId);
+		System.out.println(book);
 		Quantity quantity = new Quantity();
 		BeanUtils.copyProperties(quantityDto, quantity);
 		if (book.getNoOfBooks() > quantity.getCartQuantity()) {

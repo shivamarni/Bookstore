@@ -1,5 +1,6 @@
 package com.bridgelabz.bookstore.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityManager;
@@ -30,6 +31,12 @@ public class BookRepository {
 		Session session = entityManager.unwrap(Session.class);
 		return session.createQuery("from Book where id=:id").setParameter("id", bookId).uniqueResultOptional();
 
+	}
+
+	public List<Book> getAllBooks() {
+		Session session=entityManager.unwrap(Session.class);
+		
+		return session.createQuery("from Book").list();
 	}
 
 	

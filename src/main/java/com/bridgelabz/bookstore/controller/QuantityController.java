@@ -38,7 +38,7 @@ public class QuantityController {
 	
 	@PostMapping("/incrementquantitytobook/{bookId}")
 	@ApiOperation(value = "adding books to cart",response = Iterable.class)
-	public ResponseEntity<Response> incrementQuantityToBook(@PathVariable("bookId") Long bookId,@RequestHeader String token,@RequestBody QuantityDto quantityDto) throws BookStoreException
+	public ResponseEntity<Response> incrementQuantityToBook(@PathVariable("bookId") Long bookId,@RequestBody QuantityDto quantityDto) throws BookStoreException
 	{
 		Quantity quantity=quantityService.incrementQuantity(bookId, quantityDto);
 		return new ResponseEntity<Response>(new Response("book added to cart", quantity, 200),HttpStatus.OK);
@@ -46,7 +46,7 @@ public class QuantityController {
 	
 	@PostMapping("/decrementquantitytobook/{bookId}")
 	@ApiOperation(value = "adding books to cart",response = Iterable.class)
-	public ResponseEntity<Response> decrementQuantityToBook(@PathVariable("bookId") Long bookId,@RequestHeader String token,@RequestBody QuantityDto quantityDto) throws BookStoreException
+	public ResponseEntity<Response> decrementQuantityToBook(@PathVariable("bookId") Long bookId,@RequestBody QuantityDto quantityDto) throws BookStoreException
 	{
 		Quantity quantity=quantityService.decrementQuantity(bookId, quantityDto);
 		return new ResponseEntity<Response>(new Response("book added to cart", quantity, 200),HttpStatus.OK);

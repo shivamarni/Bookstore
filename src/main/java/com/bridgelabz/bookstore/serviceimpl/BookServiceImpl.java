@@ -103,7 +103,7 @@ public class BookServiceImpl implements BookService {
 
 	@Override
 	@Transactional
-	public List<Book> getAllBooks(String token) throws BookStoreException {
+	public List<Book> getAllSellerBooks(String token) throws BookStoreException {
 
 		Long sellerId = JWTUtility.parseJWT(token);
 
@@ -117,7 +117,7 @@ public class BookServiceImpl implements BookService {
 	@Transactional
 	@Override
 	public List<Book> getBooksSortedByPriceLow(String token) throws BookStoreException {
-		List<Book> bookList = bookService.getAllBooks(token);
+		List<Book> bookList = bookService.getAllBooks();
 		List<Book> sortBookByPriceLow = bookList.parallelStream().sorted(Comparator.comparing(Book::getBookPrice))
 				.collect(Collectors.toList());
 		return sortBookByPriceLow;
@@ -126,7 +126,7 @@ public class BookServiceImpl implements BookService {
 	@Transactional
 	@Override
 	public List<Book> getBooksSortedByPriceHigh(String token) throws BookStoreException {
-		List<Book> bookList = bookService.getAllBooks(token);
+		List<Book> bookList = bookService.getAllBooks();
 		List<Book> sortBookByPriceHigh = bookList.parallelStream().sorted(Comparator.comparing(Book::getBookPrice))
 				.collect(Collectors.toList());
 		Collections.reverse(sortBookByPriceHigh);
@@ -136,16 +136,24 @@ public class BookServiceImpl implements BookService {
 	@Transactional
 	@Override
 	public List<Book> getBooksSortedByArrival(String token) throws BookStoreException {
-		List<Book> bookList = bookService.getAllBooks(token);
+		List<Book> bookList = bookService.getAllBooks();
 		List<Book> sortBookByPriceArrival = bookList.parallelStream()
 				.sorted(Comparator.comparing(Book::getBookAddedTime)).collect(Collectors.toList());
 		return sortBookByPriceArrival;
 	}
 
 	@Override
+	@Transactional
 	public Book getBookById(Long bookId) throws BookStoreException {
 		Book book = bookrepo.findById(bookId)
 				.orElseThrow((() -> new BookStoreException("book not found", HttpStatus.NOT_FOUND)));
 		return book;
+	}
+
+	@Override
+	@Transactional
+	public List<Book> getAllBooks() throws BookStoreException {
+		List<Book> allBooks=bookrepo.getAllBooks();
+		return allBooks;
 	}
 }

@@ -91,5 +91,13 @@ public class BookController {
 		return new ResponseEntity<Response>(new Response("book details", book, 200), HttpStatus.CREATED);
 
 	}
+	
+	@GetMapping("/getAllBooks/")
+	@ApiOperation(value = "get books",response = Iterable.class)
+	public ResponseEntity<Response> getBookById() throws BookStoreException {
+		List<Book> allBooks = bookService.getAllBooks();
+		return new ResponseEntity<Response>(new Response("book details", allBooks, 200), HttpStatus.CREATED);
+
+	}
 
 }

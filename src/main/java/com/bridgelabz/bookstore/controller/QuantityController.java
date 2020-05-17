@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bridgelabz.bookstore.dto.QuantityDto;
+import com.bridgelabz.bookstore.entity.Book;
 import com.bridgelabz.bookstore.entity.Quantity;
 import com.bridgelabz.bookstore.exception.BookStoreException;
 import com.bridgelabz.bookstore.response.Response;
@@ -31,25 +32,25 @@ public class QuantityController {
 	@ApiOperation(value = "adding books to cart",response = Iterable.class)
 	public ResponseEntity<Response> mapQuantityToBook(@PathVariable("bookId") Long bookId,@RequestHeader String token,@RequestBody QuantityDto quantityDto) throws BookStoreException
 	{
-		Quantity quantity=quantityService.mapQuantityToBook(bookId, quantityDto);
-		return new ResponseEntity<Response>(new Response("book added to cart", quantity, 200),HttpStatus.OK);
+		Book book=quantityService.mapQuantityToBook(bookId, quantityDto,token);
+		return new ResponseEntity<Response>(new Response("book quantity added to cart", book, 200),HttpStatus.OK);
 	}
 	
 	
 	@PostMapping("/incrementquantitytobook/{bookId}")
 	@ApiOperation(value = "adding books to cart",response = Iterable.class)
-	public ResponseEntity<Response> incrementQuantityToBook(@PathVariable("bookId") Long bookId,@RequestHeader String token,@RequestBody QuantityDto quantityDto) throws BookStoreException
+	public ResponseEntity<Response> incrementQuantityToBook(@PathVariable("bookId") Long bookId,@RequestHeader String token) throws BookStoreException
 	{
-		Quantity quantity=quantityService.incrementQuantity(bookId, quantityDto);
-		return new ResponseEntity<Response>(new Response("book added to cart", quantity, 200),HttpStatus.OK);
+		Book book=quantityService.incrementQuantity(bookId, token);
+		return new ResponseEntity<Response>(new Response("book quantity incremented by 1 in cart", book, 200),HttpStatus.OK);
 	}
 	
 	@PostMapping("/decrementquantitytobook/{bookId}")
 	@ApiOperation(value = "adding books to cart",response = Iterable.class)
 	public ResponseEntity<Response> decrementQuantityToBook(@PathVariable("bookId") Long bookId,@RequestHeader String token,@RequestBody QuantityDto quantityDto) throws BookStoreException
 	{
-		Quantity quantity=quantityService.decrementQuantity(bookId, quantityDto);
-		return new ResponseEntity<Response>(new Response("book added to cart", quantity, 200),HttpStatus.OK);
+		Book book=quantityService.decrementQuantity(bookId, token);
+		return new ResponseEntity<Response>(new Response("book added to cart", book, 200),HttpStatus.OK);
 	}
 
 }

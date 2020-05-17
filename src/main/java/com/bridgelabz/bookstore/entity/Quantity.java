@@ -30,7 +30,6 @@ public class Quantity {
 	
 	@OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY,optional = false)
 	@JoinColumn(name = "bookId", nullable = false)
-	@JsonIgnore
 	private Book book;
 
 }

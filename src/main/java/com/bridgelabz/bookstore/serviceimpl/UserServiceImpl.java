@@ -92,7 +92,7 @@ public class UserServiceImpl implements UserService {
 
 	public User forgotPassword(String email) throws BookStoreException {
 		getUserByEmail(email);
-		JmsUtility.sendEmail(email, "reset your password", "http://localhost:8085/user/resetPassword/"+email);
+		JmsUtility.sendEmail(email, "reset your password", "http://localhost:8085/user/resetpassword/"+email);
 		return null;
 	}
 

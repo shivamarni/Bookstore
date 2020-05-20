@@ -28,7 +28,7 @@ import io.swagger.annotations.ApiOperation;
 
 @RestController
 @Api(description=" User in Book Store")
-@RequestMapping("user")
+@RequestMapping("/user")
 public class UserController {
 	
 	@Autowired

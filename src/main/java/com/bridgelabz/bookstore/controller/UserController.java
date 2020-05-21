@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,6 +27,8 @@ import com.bridgelabz.bookstore.serviceimpl.UserServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
+
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @Api(description=" User in Book Store")
 @RequestMapping("/user")
@@ -50,19 +53,19 @@ public class UserController {
 	{
 		if (result.hasErrors())
 		return new ResponseEntity<Response>(new Response(result.getAllErrors().get(0).getDefaultMessage(),null,400),HttpStatus.BAD_REQUEST);
-		User user=userimpl.loginUser(logindto);
-		return new ResponseEntity<Response>(new Response("login successful....", user, 200),HttpStatus.CREATED);
+		String token=userimpl.loginUser(logindto);
+		return new ResponseEntity<Response>(new Response("login successful....", token, 200),HttpStatus.CREATED);
 
 	}
 	
-	@PostMapping("/forgetpassword")
+	@PostMapping("/forgotpassword")
 	@ApiOperation(value = "user forget password",response = Iterable.class)
 	public ResponseEntity<Response> forgotPassword(@RequestHeader String email) throws BookStoreException
 	{
 		User user=userimpl.forgotPassword(email);
 		return new ResponseEntity<Response>(new Response("reset password link sent to email....", user, 200),HttpStatus.CREATED);
 	}
-	@GetMapping("/verify/{token}")
+	@PutMapping("/verify/{token}")
 	@ApiOperation(value = "verifying user",response = Iterable.class)
 	public ResponseEntity<Response> verifyuser(@PathVariable("token") String token) throws BookStoreException
 	{

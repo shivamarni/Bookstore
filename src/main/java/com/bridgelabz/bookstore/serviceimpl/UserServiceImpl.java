@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
 		cart.setUser(user);
 		cartrepo.save(cart);
 		userrepo.save(user);
-		JmsUtility.sendEmail(userdto.getEmail(),"verification email","http://localhost:8085/user/verify/"+JWTUtility.jwtToken(user2.getUserId()));
+		JmsUtility.sendEmail(userdto.getEmail(),"verification email","http://localhost:3000/verify/"+JWTUtility.jwtToken(user2.getUserId()));
 		return user2;
 		}
 		else
@@ -51,13 +51,13 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User loginUser(LoginDto dto) throws BookStoreException {
+	public String loginUser(LoginDto dto) throws BookStoreException {
 		User user=getUserByEmail(dto.getEmail());
 		boolean ispwd=pwdBcrypt.matches(dto.getPassword(),user.getPassword());
 		if(ispwd==false) {
 			throw new BookStoreException("incorrect password", HttpStatus.BAD_REQUEST);
 		}
-		return user;
+		return JWTUtility.jwtToken(user.getUserId());
 	}
 
 	@Override
@@ -91,8 +91,9 @@ public class UserServiceImpl implements UserService {
 	}
 
 	public User forgotPassword(String email) throws BookStoreException {
-		getUserByEmail(email);
-		JmsUtility.sendEmail(email, "reset your password", "http://localhost:8085/user/resetpassword/"+email);
+		User user=getUserByEmail(email);
+		String token=JWTUtility.jwtToken(user.getUserId());
+		JmsUtility.sendEmail(email, "reset your password", "http://localhost:3000/user/resetpassword/"+token);
 		return null;
 	}
 

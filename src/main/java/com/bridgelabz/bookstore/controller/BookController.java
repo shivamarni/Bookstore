@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,9 +23,11 @@ import com.bridgelabz.bookstore.service.BookService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @Api(description="Book Store details")
 @RequestMapping("book")
+
 public class BookController {
 
 	@Autowired
@@ -89,6 +92,14 @@ public class BookController {
 	public ResponseEntity<Response> getBookById(@PathVariable("bookId") Long bookId) throws BookStoreException {
 		Book book = bookService.getBookById(bookId);
 		return new ResponseEntity<Response>(new Response("book details", book, 200), HttpStatus.CREATED);
+
+	}
+	
+	@GetMapping("/getbookcount")
+	@ApiOperation(value = "get books",response = Iterable.class)
+	public ResponseEntity<Response> getBookCount() throws BookStoreException {
+		int noOfBooks = bookService.getBookCount();
+		return new ResponseEntity<Response>(new Response("number of books",noOfBooks, 200), HttpStatus.CREATED);
 
 	}
 	

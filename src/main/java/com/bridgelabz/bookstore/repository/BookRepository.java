@@ -11,8 +11,9 @@ import org.springframework.stereotype.Repository;
 
 import com.bridgelabz.bookstore.entity.Book;
 import com.bridgelabz.bookstore.entity.Seller;
+
 @Repository
-public class BookRepository{
+public class BookRepository {
 
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -26,7 +27,7 @@ public class BookRepository{
 		return book;
 
 	}
-	
+
 	public Optional<Book> findById(Long bookId) {
 		Session session = entityManager.unwrap(Session.class);
 		return session.createQuery("from Book where id=:id").setParameter("id", bookId).uniqueResultOptional();
@@ -34,8 +35,8 @@ public class BookRepository{
 	}
 
 	public List<Book> getAllBooks() {
-		Session session=entityManager.unwrap(Session.class);
-		
+		Session session = entityManager.unwrap(Session.class);
+
 		return session.createQuery("from Book").list();
 	}
 

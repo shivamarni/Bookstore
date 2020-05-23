@@ -5,7 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,6 +18,7 @@ import com.bridgelabz.bookstore.exception.BookStoreException;
 import com.bridgelabz.bookstore.response.Response;
 import com.bridgelabz.bookstore.serviceimpl.PaginationServiceImpl;
 
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("/pagination")
 public class PaginationController {
@@ -22,7 +26,7 @@ public class PaginationController {
    private PaginationServiceImpl pageImpl;
  
     @GetMapping("/booksbyid")
-    public ResponseEntity<Response> getBooks(@RequestParam(defaultValue = "0") Integer pageNo, 
+    public ResponseEntity<Response> getBooks(@RequestHeader(defaultValue = "0") Integer pageNo, 
                         @RequestParam(defaultValue = "8") Integer pageSize,
                         @RequestParam(defaultValue = "bookId") String sortBy)throws BookStoreException
     {
@@ -32,9 +36,9 @@ public class PaginationController {
     }
     
     @GetMapping("/booksbyprice/descending")
-    public ResponseEntity<Response> getBooksByPriceDescending(@RequestParam(defaultValue = "0") Integer pageNo, 
+    public ResponseEntity<Response> getBooksByPriceDescending(@RequestHeader(defaultValue = "0") Integer pageNo, 
                         @RequestParam(defaultValue = "8") Integer pageSize,
-                        @RequestParam(defaultValue = "bookprice") String sortBy)throws BookStoreException
+                        @RequestParam(defaultValue = "bookPrice") String sortBy)throws BookStoreException
     {
         List<Book> books = pageImpl.getBooksByPriceDescending(pageNo, pageSize , sortBy);
  
@@ -42,17 +46,18 @@ public class PaginationController {
     }
     
     @GetMapping("/booksbyprice/ascending")
-    public ResponseEntity<Response> getBooksByPriceAscending(@RequestParam(defaultValue = "0") Integer pageNo, 
+    public ResponseEntity<Response> getBooksByPriceAscending(@RequestHeader(defaultValue = "0") Integer pageNo, 
                         @RequestParam(defaultValue = "8") Integer pageSize,
-                        @RequestParam(defaultValue = "bookprice") String sortBy)throws BookStoreException
+                        @RequestParam(defaultValue = "bookPrice") String sortBy)throws BookStoreException
     {
         List<Book> books = pageImpl.getBooksByPriceAscending(pageNo, pageSize , sortBy);
  
         return new ResponseEntity<Response>(new Response("pagination",books ,200), HttpStatus.OK); 
     }
     
-    @GetMapping("/booksbyarrivel")
-    public ResponseEntity<Response> getBooksByArrivel(@RequestParam(defaultValue = "0") Integer pageNo, 
+    @GetMapping("/booksbyarrival")
+    public ResponseEntity<Response> getBooksByArrivel(@RequestHeader
+    		(defaultValue = "0") Integer pageNo, 
                         @RequestParam(defaultValue = "8") Integer pageSize,
                         @RequestParam(defaultValue = "bookAddedTime") String sortBy)throws BookStoreException
     {

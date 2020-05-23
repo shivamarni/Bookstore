@@ -25,4 +25,6 @@ public interface BookService {
 
 	public List<Book> getAllBooks() throws BookStoreException;
 
+	public int getBookCount();
+
 }

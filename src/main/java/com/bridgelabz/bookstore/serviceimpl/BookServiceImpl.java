@@ -156,4 +156,10 @@ public class BookServiceImpl implements BookService {
 		List<Book> allBooks=bookrepo.getAllBooks();
 		return allBooks;
 	}
+
+	@Override
+	public int getBookCount() {
+		List<Book> allBooks=bookrepo.getAllBooks();
+		return 	allBooks.size();
+	}
 }

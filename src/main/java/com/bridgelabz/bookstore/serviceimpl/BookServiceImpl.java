@@ -13,11 +13,13 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.bridgelabz.bookstore.dto.BookDto;
 import com.bridgelabz.bookstore.entity.Book;
 import com.bridgelabz.bookstore.entity.Seller;
 import com.bridgelabz.bookstore.exception.BookStoreException;
+import com.bridgelabz.bookstore.exception.S3BucketException;
 import com.bridgelabz.bookstore.repository.BookRepository;
 import com.bridgelabz.bookstore.repository.SellerRepository;
 import com.bridgelabz.bookstore.service.BookService;
@@ -35,16 +37,21 @@ public class BookServiceImpl implements BookService {
 	@Autowired
 	private BookRepository bookrepo;
 
+	@Autowired
+	private AmazonS3ClientServiceImpl amazonImpl;
+	
 	@Override
 
 	@Transactional
-	public Book addBook(BookDto bookDTO, String token) throws BookStoreException {
+	public Book addBook(MultipartFile file,BookDto bookDTO, String token) throws BookStoreException, S3BucketException {
 		Long sellerId = JWTUtility.parseJWT(token);
 		System.out.println(sellerId);
 		Book book = new Book();
 		BeanUtils.copyProperties(bookDTO, book);
 		book.setBookAddedTime(LocalDateTime.now());
 		book.setBookUpdatedTime(LocalDateTime.now());
+		book=bookrepo.save(book);
+		book.setBookImage(amazonImpl.uploadFileToS3Bucket(file,true, book.getBookId()));
 		Seller seller = sellerrepo.getSellerById(sellerId)
 				.orElseThrow(() -> new BookStoreException("Seller not found", HttpStatus.NOT_FOUND));
 

@@ -2,12 +2,15 @@ package com.bridgelabz.bookstore.service;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.bridgelabz.bookstore.dto.BookDto;
 import com.bridgelabz.bookstore.entity.Book;
 import com.bridgelabz.bookstore.exception.BookStoreException;
+import com.bridgelabz.bookstore.exception.S3BucketException;
 
 public interface BookService {
-	public Book addBook(BookDto bookDTO, String token) throws BookStoreException;
+	public Book addBook(MultipartFile file, BookDto bookDTO, String token) throws BookStoreException, S3BucketException;
 
 	public Book updateBook(BookDto bookDTO, String token, Long bookId) throws BookStoreException;
 

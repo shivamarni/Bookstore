@@ -54,18 +54,22 @@ public class QuantityServiceImplemention implements QuantityService {
 
 			{
 				quantrepo.alterQuantity(quantityDto.getCartQuantity(),bookId);
+				Quantity quantity=book.getQuantity();
+				quantity.setCartQuantity(quantityDto.getCartQuantity());
 				book.setNoOfBooks(book.getNoOfBooks()-quantityDto.getCartQuantity());
-				Book book2=bookrepo.save(book);
-				return book2;
+				quantity.setBook(book);
+				book.setQuantity(quantity);
+				book=bookrepo.save(book);
+				return book;
 			}
 			else {
 			Quantity quantity=new Quantity();
 			quantity.setCartQuantity(quantityDto.getCartQuantity());
 			book.setNoOfBooks(book.getNoOfBooks()-quantityDto.getCartQuantity());
 			quantity.setBook(book);
+			quantity=quantrepo.save(quantity);
 			book.setQuantity(quantity);
-			quantrepo.save(quantity);
-			bookrepo.save(book);
+			book=bookrepo.save(book);
 			return book;
 			}
 		}
@@ -89,8 +93,12 @@ public class QuantityServiceImplemention implements QuantityService {
 			{
 				quantrepo.alterQuantity(quantity.getCartQuantity()+1,bookId);
 				book.setNoOfBooks(book.getNoOfBooks()-1);
-				Book book2=bookrepo.save(book);
-				return book2;
+				quantity=book.getQuantity();
+				quantity.setCartQuantity(quantity.getCartQuantity()+1);
+				quantity.setBook(book);
+				book.setQuantity(quantity);
+				book=bookrepo.save(book);
+				return book;
 			}
 			else {
 			quantity.setCartQuantity(quantity.getCartQuantity()+1);
@@ -123,8 +131,12 @@ public class QuantityServiceImplemention implements QuantityService {
 			{
 				quantrepo.alterQuantity(quantity.getCartQuantity()-1,bookId);
 				book.setNoOfBooks(book.getNoOfBooks()+1);
-				Book book2=bookrepo.save(book);
-				return book2;
+				quantity=book.getQuantity();
+				quantity.setCartQuantity(quantity.getCartQuantity()-1);
+				quantity.setBook(book);
+				book.setQuantity(quantity);
+				book=bookrepo.save(book);
+				return book;
 			}
 			else {
 			quantity.setCartQuantity(quantity.getCartQuantity()-1);

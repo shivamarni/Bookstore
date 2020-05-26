@@ -79,4 +79,16 @@ public class AddressServiceImpl implements AddressService {
 		User user=userimpl.getUserById(userId);
 		addressrepo.deleteAllAddresses(userId);	
 	}
+
+	public Address getAddressForUser(String token,String type) throws BookStoreException {
+		Long userId=JWTUtility.parseJWT(token);
+		User user=userimpl.getUserById(userId);
+		List<Address> addresses=user.getAddresses();
+		for(Address address : addresses)
+		{
+			if(address.getAddressType().equals(type))
+				return address;
+		}
+		return null;
+	}
 }

@@ -14,9 +14,12 @@ import org.springframework.stereotype.Service;
 import com.bridgelabz.bookstore.entity.Book;
 import com.bridgelabz.bookstore.entity.Cart;
 import com.bridgelabz.bookstore.entity.OrderedBooks;
+import com.bridgelabz.bookstore.entity.Quantity;
 import com.bridgelabz.bookstore.entity.User;
 import com.bridgelabz.bookstore.exception.BookStoreException;
+import com.bridgelabz.bookstore.repository.BookRepository;
 import com.bridgelabz.bookstore.repository.CartRepository;
+import com.bridgelabz.bookstore.repository.QuantityRepository;
 import com.bridgelabz.bookstore.repository.UserRepository;
 import com.bridgelabz.bookstore.service.CartService;
 import com.bridgelabz.bookstore.utility.JWTUtility;
@@ -34,13 +37,19 @@ public class CartServiceImpl implements CartService{
 	private CartServiceImpl cartservice;
 	@Autowired
 	private UserRepository userrepo;
+	@Autowired
+	private BookRepository bookrepo;
+	@Autowired
+	private QuantityRepository quantrepo;
 	@Override
 	@Transactional
 	public List<Book> addBookToCart(Long bookId, String token) throws BookStoreException {
 		Long userId=JWTUtility.parseJWT(token);
 		User user=userImpl.getUserById(userId);
 		Book book=bookImpl.getBookById(bookId);
-
+		Quantity quantity=new Quantity();
+		long quant=1;
+		quantity.setCartQuantity(quant);
 		Cart cart=new Cart();
 		if(user.getCart()==null)
 		{
@@ -54,6 +63,10 @@ public class CartServiceImpl implements CartService{
 		Optional<Book> isBook =cart.getBooklist().stream().filter(isBookExists -> isBookExists.getBookId() == bookId).findFirst();
 		if(isBook.isPresent())
 			throw new BookStoreException("Book already exists",HttpStatus.BAD_REQUEST);
+		quantity.setBook(book);
+		quantrepo.save(quantity);
+		book.setQuantity(quantity);
+		bookrepo.save(book);
 		cart.getBooklist().add(book);
 		return cart.getBooklist();
 

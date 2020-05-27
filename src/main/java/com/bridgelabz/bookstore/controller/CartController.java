@@ -30,9 +30,9 @@ public class CartController {
 	
 	@Autowired
 	private CartServiceImpl cartImpl;
-	@PostMapping("/addbooktocart/{bookId}")
+	@PostMapping("/addbooktocart/")
 	@ApiOperation(value = "adding books to the cart",response = Iterable.class)
-	public ResponseEntity<Response> addBookToCart(@PathVariable("bookId") Long bookId,@RequestHeader String token) throws BookStoreException
+	public ResponseEntity<Response> addBookToCart(@RequestHeader("bookId") Long bookId,@RequestHeader String token) throws BookStoreException
 	{
 		List<Book> cartBooks=cartImpl.addBookToCart(bookId, token);
 		return new ResponseEntity<Response>(new Response("book added to cart", cartBooks, 200),HttpStatus.OK);
@@ -62,11 +62,11 @@ public class CartController {
 		return new ResponseEntity<Response>(new Response("all books deleted from cart",null, 200),HttpStatus.OK);
 	}
 	
-	@DeleteMapping("/cartbook/{bookId}")
+	@PostMapping("/cartbook/delete")
 	@ApiOperation(value = "removing book from cart",response = Iterable.class)
-	public ResponseEntity<Response> deleteCartBook(@PathVariable("bookId") Long bookId,@RequestHeader String token) throws BookStoreException
+	public ResponseEntity<Response> deleteCartBook(@RequestHeader("bookId") Long bookId,@RequestHeader("token") String token) throws BookStoreException
 	{
 		List<Book> cartBooks=cartImpl.deleteCartBook(bookId,token);
-		return new ResponseEntity<Response>(new Response("book from cart   by id", cartBooks, 200),HttpStatus.OK);
+		return new ResponseEntity<Response>(new Response("book from cart  by id", cartBooks, 200),HttpStatus.OK);
 	}
 }

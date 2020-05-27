@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,6 +22,7 @@ import com.bridgelabz.bookstore.service.QuantityService;
 
 import io.swagger.annotations.ApiOperation;
 
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("quantity")
 public class QuantityController {
@@ -37,20 +39,20 @@ public class QuantityController {
 	}
 	
 	
-	@PostMapping("/incrementquantitytobook/{bookId}")
+	@PostMapping("/incrementquantitytobook/")
 	@ApiOperation(value = "adding books to cart",response = Iterable.class)
-	public ResponseEntity<Response> incrementQuantityToBook(@PathVariable("bookId") Long bookId,@RequestHeader String token) throws BookStoreException
+	public ResponseEntity<Response> incrementQuantityToBook(@RequestHeader("bookId") Long bookId,@RequestHeader String token) throws BookStoreException
 	{
 		Book book=quantityService.incrementQuantity(bookId, token);
 		return new ResponseEntity<Response>(new Response("book quantity incremented by 1 in cart", book, 200),HttpStatus.OK);
 	}
 	
-	@PostMapping("/decrementquantitytobook/{bookId}")
+	@PostMapping("/decrementquantitytobook/")
 	@ApiOperation(value = "adding books to cart",response = Iterable.class)
-	public ResponseEntity<Response> decrementQuantityToBook(@PathVariable("bookId") Long bookId,@RequestHeader String token) throws BookStoreException
+	public ResponseEntity<Response> decrementQuantityToBook(@RequestHeader("bookId") Long bookId,@RequestHeader String token) throws BookStoreException
 	{
 		Book book=quantityService.decrementQuantity(bookId, token);
-		return new ResponseEntity<Response>(new Response("book added to cart", book, 200),HttpStatus.OK);
+		return new ResponseEntity<Response>(new Response("book quantity decremented by 1 in cart", book, 200),HttpStatus.OK);
 	}
 
 }

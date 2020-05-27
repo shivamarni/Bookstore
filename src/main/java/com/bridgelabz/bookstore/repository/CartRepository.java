@@ -1,5 +1,7 @@
 package com.bridgelabz.bookstore.repository;
 
+import java.util.Optional;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -23,6 +25,13 @@ public class CartRepository {
 
 		return cart;
 
+	}
+
+	public Optional removeBook(Long bookId) {
+		Session session = entityManager.unwrap(Session.class);
+		return session.createQuery(" delete from cart_book where booklist_book_id=:bookId").setParameter("bookId", bookId).uniqueResultOptional();
+
+		
 	}
 
 }

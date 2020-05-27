@@ -80,8 +80,8 @@ public class AddressController {
 		return new ResponseEntity<Response>(new Response("all addresses deleted",null, 200),HttpStatus.CREATED);
 	}
 	
-	@GetMapping("/useraddress/{type}")
-	public ResponseEntity<Response> getAddressForUser(@PathVariable("type") String type,@RequestHeader("token") String token) throws BookStoreException
+	@GetMapping("/useraddress/")
+	public ResponseEntity<Response> getAddressForUser(@RequestHeader("type") String type,@RequestHeader("token") String token) throws BookStoreException
 	{
 		Address addressList=addressimpl.getAddressForUser(token,type);
 		return new ResponseEntity<Response>(new Response("address is",addressList, 200),HttpStatus.CREATED);

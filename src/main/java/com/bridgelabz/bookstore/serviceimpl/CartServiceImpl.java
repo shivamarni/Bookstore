@@ -103,6 +103,7 @@ public class CartServiceImpl implements CartService{
 	}
 	
 	@Override
+	@Transactional
 	public List<Book> deleteCartBook(Long bookId, String token) throws BookStoreException {
 		Long userId=JWTUtility.parseJWT(token);
 		User user=userImpl.getUserById(userId);
@@ -110,6 +111,8 @@ public class CartServiceImpl implements CartService{
 		Cart cart=user.getCart();
 		Book book2=cart.getBooklist().stream().filter(book1 -> book1.getBookId()==bookId).findFirst().orElseThrow(()-> new BookStoreException("no book in the cart",HttpStatus.NOT_FOUND));
 		cart.getBooklist().remove(book2);
+		cartrepo.removeBook(bookId);
+		cartrepo.removeBook(bookId);
 		cartrepo.save(cart);
 		return cart.getBooklist();
 	}

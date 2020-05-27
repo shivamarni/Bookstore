@@ -25,20 +25,19 @@ public class Address {
 	private Long addressId;
 	@Column(name = "country", nullable = false)
 	private String country;
-	@Column(name = "state", nullable = false)
-	private String state;
-	@Column(name = "district", nullable = false)
-	private String district;
+	@Column(name = "address", nullable = false)
+	private String address;
+	@Column(name = "landmark", nullable = false)
+	private String landmark;
 	@Column(name = "city", nullable = false)
 	private String city;
-	@Column(name = "zipcode", nullable = false)
-	private Long zipcode;
-	@Column(name = "street", nullable = false)
-	private String street;
+	@Column(name = "pincode", nullable = false)
+	private Long pincode;
+	
 	@Column(name = "addressType")
 	private String addressType;
-	@Column(name = "doorNo", nullable = false)
-	private String doorNo;
+	@Column(name = "phonenumber", nullable = false)
+	private Long phonenumber;
 	private LocalDateTime createdTime;
 	@Value("null")
 	private LocalDateTime updatedtime;

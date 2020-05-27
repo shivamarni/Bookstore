@@ -11,21 +11,21 @@ import lombok.Setter;
 public class AddressDto {
 	
 	@NotNull(message = "country name is required")
-	private String country;
+	private String address;
 	
-	private String state;
-	private String district;
+	private String landmark;
+	private String country;
 	private String city;
 	
 	@NotNull(message="zipcode is required for delivering books")
-	private Long zipcode;
+	private Long pinCode;
 	
 	@NotNull(message="street is required for delivering books")
-	private String street;
+	private String name;
 	
 	private String addressType;
 	
 	@NotNull(message="doorNo is required for delivering books")
-	private String doorNo;
+	private Long phonenumber;
 
 }

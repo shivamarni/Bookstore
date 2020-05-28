@@ -35,6 +35,7 @@ public class AddressServiceImpl implements AddressService {
 		Address address=new Address();
 		BeanUtils.copyProperties(addressDto, address);
 		address.setCreatedTime(LocalDateTime.now());
+		
 		addressrepo.save(address);
 		user.getAddresses().add(address);
 		userrepo.save(user);

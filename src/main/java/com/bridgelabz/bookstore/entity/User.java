@@ -58,9 +58,9 @@ public class User {
 	@JoinColumn(name="userId")
 	private List<Address> addresses;
 	
-	@OneToMany(cascade = CascadeType.ALL,fetch=FetchType.LAZY,targetEntity = OrderedBooks.class)
+	@OneToMany(cascade = CascadeType.ALL,fetch=FetchType.LAZY,targetEntity = Order.class)
 	@JoinColumn(name="userId")
-	private List<OrderedBooks> orderedBooks;
+	private List<Order> orderedBooks;
 	
 	@OneToOne(cascade = CascadeType.ALL,fetch=FetchType.LAZY,mappedBy = "user", optional = false)
 	@JsonIgnore

@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.bridgelabz.bookstore.entity.Book;
 import com.bridgelabz.bookstore.entity.Cart;
-import com.bridgelabz.bookstore.entity.OrderedBooks;
+import com.bridgelabz.bookstore.entity.Order;
 import com.bridgelabz.bookstore.entity.Quantity;
 import com.bridgelabz.bookstore.entity.User;
 import com.bridgelabz.bookstore.exception.BookStoreException;
@@ -110,10 +110,12 @@ public class CartServiceImpl implements CartService{
 		Book book=bookImpl.getBookById(bookId);
 		Cart cart=user.getCart();
 		Book book2=cart.getBooklist().stream().filter(book1 -> book1.getBookId()==bookId).findFirst().orElseThrow(()-> new BookStoreException("no book in the cart",HttpStatus.NOT_FOUND));
+		
+//		cartrepo.removeBook(bookId);
 		cart.getBooklist().remove(book2);
-		cartrepo.removeBook(bookId);
-		cartrepo.removeBook(bookId);
+		
 		cartrepo.save(cart);
+		bookrepo.save(book2);
 		return cart.getBooklist();
 	}
 	

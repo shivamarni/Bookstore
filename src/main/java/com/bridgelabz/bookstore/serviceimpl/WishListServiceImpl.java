@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.bridgelabz.bookstore.entity.Book;
 import com.bridgelabz.bookstore.entity.Cart;
-import com.bridgelabz.bookstore.entity.OrderedBooks;
+import com.bridgelabz.bookstore.entity.Order;
 import com.bridgelabz.bookstore.entity.User;
 import com.bridgelabz.bookstore.entity.WishList;
 import com.bridgelabz.bookstore.exception.BookStoreException;

@@ -31,8 +31,8 @@ public class Address {
 	private String landmark;
 	@Column(name = "city", nullable = false)
 	private String city;
-	@Column(name = "pincode", nullable = false)
-	private Long pincode;
+	@Column(name = "pinCode", nullable = false)
+	private Long pinCode;
 	
 	@Column(name = "addressType")
 	private String addressType;

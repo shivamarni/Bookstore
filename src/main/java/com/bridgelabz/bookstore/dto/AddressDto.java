@@ -12,7 +12,7 @@ public class AddressDto {
 	
 	@NotNull(message = "country name is required")
 	private String address;
-	
+
 	private String landmark;
 	private String country;
 	private String city;
@@ -20,7 +20,7 @@ public class AddressDto {
 	@NotNull(message="zipcode is required for delivering books")
 	private Long pinCode;
 	
-	@NotNull(message="street is required for delivering books")
+	@NotNull(message="name is required for delivering books")
 	private String name;
 	
 	private String addressType;

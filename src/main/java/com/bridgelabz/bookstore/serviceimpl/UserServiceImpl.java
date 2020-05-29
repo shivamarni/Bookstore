@@ -13,9 +13,11 @@ import com.bridgelabz.bookstore.dto.LoginDto;
 import com.bridgelabz.bookstore.dto.UserDto;
 import com.bridgelabz.bookstore.entity.Cart;
 import com.bridgelabz.bookstore.entity.User;
+import com.bridgelabz.bookstore.entity.WishList;
 import com.bridgelabz.bookstore.exception.BookStoreException;
 import com.bridgelabz.bookstore.repository.CartRepository;
 import com.bridgelabz.bookstore.repository.UserRepository;
+import com.bridgelabz.bookstore.repository.WishListRepository;
 import com.bridgelabz.bookstore.service.UserService;
 import com.bridgelabz.bookstore.utility.JWTUtility;
 import com.bridgelabz.bookstore.utility.JmsUtility;
@@ -28,6 +30,8 @@ public class UserServiceImpl implements UserService {
 	private BCryptPasswordEncoder pwdBcrypt;
 	@Autowired
 	private CartRepository cartrepo;
+	@Autowired
+	private WishListRepository wishrepo;
 	@Override
 	public User registerUser(UserDto userdto) throws BookStoreException {
 		if(userrepo.getUserByEmail(userdto.getEmail()).isPresent()==false) {
@@ -42,6 +46,12 @@ public class UserServiceImpl implements UserService {
 		user.setCart(cart);
 		cart.setUser(user);
 		cartrepo.save(cart);
+		WishList wishlist=new WishList();
+		wishlist.setCreatedTime(LocalDateTime.now());
+		user.setWishlist(wishlist);
+		wishlist.setUser(user);
+		cartrepo.save(cart);
+		wishrepo.save(wishlist);
 		userrepo.save(user);
 		JmsUtility.sendEmail(userdto.getEmail(),"verification email","http://localhost:3000/verify/"+JWTUtility.jwtToken(user2.getUserId()));
 		return user2;

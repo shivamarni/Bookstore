@@ -8,9 +8,9 @@ import com.bridgelabz.bookstore.exception.BookStoreException;
 
 public interface AddressService {
 	
-	Address addAddress(AddressDto addressDto,String token) throws BookStoreException;
 	Address updateAddress(AddressDto addressDto,String token,Long addressId) throws BookStoreException;
 	void deleteAddress(String token,Long addressId) throws BookStoreException;
 	List<Address> getAllAddresses(String token) throws BookStoreException;
 	Address getAddressById(Long addressId, Long userId) throws BookStoreException;
+	Address addAddress(AddressDto addressDto, String token, String type) throws BookStoreException;
 }

@@ -39,9 +39,9 @@ public class AddressController {
 	private AddressServiceImpl addressimpl;
 
 	@PostMapping("add")
-	public ResponseEntity<Response> addAddress(@RequestBody AddressDto addressDto, @RequestHeader String token) throws BookStoreException {
+	public ResponseEntity<Response> addAddress(@RequestBody AddressDto addressDto, @RequestHeader String token,@RequestHeader String type) throws BookStoreException {
 
-		Address address = addressimpl.addAddress(addressDto, token);
+		Address address = addressimpl.addAddress(addressDto, token,type);
 		return new ResponseEntity<Response>(new Response("address added", address, 200), HttpStatus.CREATED);
 	}
 

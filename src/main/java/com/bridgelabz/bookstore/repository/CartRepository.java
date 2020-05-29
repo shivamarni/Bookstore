@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -27,11 +28,17 @@ public class CartRepository {
 
 	}
 
-	public Optional removeBook(Long bookId) {
+	public boolean removeBookQuantity(Long bookId) {
 		Session session = entityManager.unwrap(Session.class);
-		return session.createQuery(" delete from cart_booklist where booklist_book_id=:bookId").setParameter("bookId", bookId).uniqueResultOptional();
-
 		
+		Query query = session.createQuery("DELETE FROM Quantity where book_id=:id").setParameter("id", bookId);
+		int result = query.executeUpdate();
+		if (result >= 1) {
+			return true;
+
+		}
+		return false;
+
 	}
 
 }

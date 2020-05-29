@@ -8,6 +8,7 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -104,6 +105,7 @@ public class CartServiceImpl implements CartService{
 	
 	@Override
 	@Transactional
+	@Modifying
 	public List<Book> deleteCartBook(Long bookId, String token) throws BookStoreException {
 		Long userId=JWTUtility.parseJWT(token);
 		User user=userImpl.getUserById(userId);
@@ -111,7 +113,7 @@ public class CartServiceImpl implements CartService{
 		Cart cart=user.getCart();
 		Book book2=cart.getBooklist().stream().filter(book1 -> book1.getBookId()==bookId).findFirst().orElseThrow(()-> new BookStoreException("no book in the cart",HttpStatus.NOT_FOUND));
 		
-//		cartrepo.removeBook(bookId);
+		cartrepo.removeBookQuantity(bookId);
 		cart.getBooklist().remove(book2);
 		
 		cartrepo.save(cart);

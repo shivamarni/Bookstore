@@ -23,6 +23,7 @@ public class Address {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long addressId;
+	private String name;
 	@Column(name = "country", nullable = false)
 	private String country;
 	@Column(name = "address", nullable = false)

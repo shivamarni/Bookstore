@@ -115,7 +115,7 @@ public class BookController {
 
 	}
 	
-	@GetMapping("/getAllBooks/")
+	@GetMapping("/getallbooks/")
 	@ApiOperation(value = "get books",response = Iterable.class)
 	public ResponseEntity<Response> getBookById() throws BookStoreException {
 		List<Book> allBooks = bookService.getAllBooks();

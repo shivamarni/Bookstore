@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.bridgelabz.bookstore.dto.AddressDto;
@@ -21,6 +22,8 @@ import com.bridgelabz.bookstore.utility.JWTUtility;
 public class AddressServiceImpl implements AddressService {
 	
 	@Autowired
+	BCryptPasswordEncoder encoder;
+	@Autowired
 	private AddressRepository addressrepo;
 
 	@Autowired
@@ -29,13 +32,22 @@ public class AddressServiceImpl implements AddressService {
 	@Autowired
 	private UserRepository userrepo;
 	@Override
-	public Address addAddress(AddressDto addressDto, String token) throws BookStoreException {
+	public Address addAddress(AddressDto addressDto, String token, String type) throws BookStoreException {
 		Long userId=JWTUtility.parseJWT(token);
 		User user=userimpl.getUserById(userId);
+		List<Address> addresses=user.getAddresses();
 		Address address=new Address();
+		for(Address dbAddress : addresses)
+		{
+			if(dbAddress.getAddressType().equals(type))
+			{
+				address=dbAddress; 
+				address.setUpdatedtime(LocalDateTime.now());
+			}
+		}
 		BeanUtils.copyProperties(addressDto, address);
 		address.setCreatedTime(LocalDateTime.now());
-		
+		address.setAddressType(type);
 		addressrepo.save(address);
 		user.getAddresses().add(address);
 		userrepo.save(user);
@@ -66,6 +78,8 @@ public class AddressServiceImpl implements AddressService {
 	public List<Address> getAllAddresses(String token) throws BookStoreException {
 		Long userId=JWTUtility.parseJWT(token);
 		User user=userimpl.getUserById(userId);
+		AddressDto addressDto=new AddressDto();
+		
 		return user.getAddresses();
 	}
 
@@ -87,7 +101,7 @@ public class AddressServiceImpl implements AddressService {
 		List<Address> addresses=user.getAddresses();
 		for(Address address : addresses)
 		{
-			if(address.getAddressType().equals(type))
+			if(address.getAddressType().equalsIgnoreCase(type))
 				return address;
 		}
 		return null;

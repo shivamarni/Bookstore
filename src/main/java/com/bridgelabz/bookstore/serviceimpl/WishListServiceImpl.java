@@ -41,18 +41,31 @@ public class WishListServiceImpl implements WishListService{
 		User user=userImpl.getUserById(userId);
 		Book book=bookImpl.getBookById(bookId);
 		WishList wishlist=new WishList();
-		if(user.getCart()==null)
+		
+		if(user.getWishlist()==null)
 		{
 		wishlist.setCreatedTime(LocalDateTime.now());
+		wishlist.getBooklist().add(book);
 		user.setWishlist(wishlist);
 		wishlist.setUser(user);
 		}
 		wishlist=user.getWishlist();
+		
+		
 		Optional<Book> isBook =wishlist.getBooklist().stream().filter(isBookExists -> isBookExists.getBookId() == bookId).findFirst();
-		if(isBook.isPresent())
-			throw new BookStoreException("Book already exists",HttpStatus.BAD_REQUEST);
 		wishlist.getBooklist().add(book);
+		wishrepo.save(wishlist);
 		return wishlist.getBooklist();
+		//System.out.println(isBook+"fb,ajsfhalfhalfkh");
+//		if(isBook==null) {
+//			
+//			throw new BookStoreException("Book already exists",HttpStatus.BAD_REQUEST);
+//		
+//		}
+//		else 
+//		wishlist.getBooklist().add(book);
+		//return wishlist.getBooklist();
+		
 	}
 	@Override
 	public List<Book> deleteBookFromWishList(Long bookId, String token) {

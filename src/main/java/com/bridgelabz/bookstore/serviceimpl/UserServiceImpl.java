@@ -41,7 +41,6 @@ public class UserServiceImpl implements UserService {
 		BeanUtils.copyProperties(userdto, user);
 		user.setPassword(pwdBcrypt.encode(userdto.getPassword()));
 		user.setCreatedDate(LocalDateTime.now());
-		user.setUpdatedDate(LocalDateTime.now());
 		User user2=userrepo.save(user);
 		Cart cart=new Cart();
 		cart.setCreatedTime(LocalDateTime.now());

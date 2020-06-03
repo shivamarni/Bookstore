@@ -24,10 +24,8 @@ public class Admin {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long adminId;
-	@Column(name = "admin_firstName", nullable = false)
-	private String firstName;
-	@Column(name = "admin_lastName", nullable = false)
-	private String lastName;
+	@Column(name = "Admin_Name", nullable = false)
+	private String name;
 	@Column(name = "admin_email", nullable = false)
 	private String email;
 	@Column(name = "password", nullable = false)

@@ -46,6 +46,17 @@ public class CartController {
 		return new ResponseEntity<Response>(new Response("all books from cart", cartBooks, 200),HttpStatus.OK);
 	}
 	
+	@GetMapping("/allcartcount")
+	@ApiOperation(value = "get all books from cart list",response = Iterable.class)
+	public ResponseEntity<Response> getAllCartCount(@RequestHeader String token) throws BookStoreException
+	{
+		List<Book> cartBooks=cartImpl.getAllCartBooks(token);
+		Long allCartCount=(long) cartBooks.size();
+		return new ResponseEntity<Response>(new Response("all books from cart", allCartCount, 200),HttpStatus.OK);
+	}
+	
+	
+	
 	@GetMapping("/cartbook/{bookId}")
 	@ApiOperation(value = "get book from cart",response = Iterable.class)
 	public ResponseEntity<Response> getCartBook(@PathVariable("bookId") Long bookId,@RequestHeader String token) throws BookStoreException
@@ -54,7 +65,7 @@ public class CartController {
 		return new ResponseEntity<Response>(new Response("book from cart   by id", book, 200),HttpStatus.OK);
 	}
 	
-	@DeleteMapping("/allcartbooks")
+	@DeleteMapping("/allcartbooks/")
 	@ApiOperation(value = "removing the all books from the cart",response = Iterable.class)
 	public ResponseEntity<Response> deleteAllCartBooks(@RequestHeader String token) throws BookStoreException
 	{

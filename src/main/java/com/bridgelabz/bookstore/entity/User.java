@@ -37,7 +37,6 @@ public class User {
 	@Column(name = "User_Name", nullable = false)
 	private String name;
 	@Column(name = "password", nullable = false)
-	
 	private String password;
 	@Column(name = "user_email", nullable = false)
 	private String email;

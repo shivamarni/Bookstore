@@ -8,16 +8,20 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.bridgelabz.bookstore.entity.Book;
 import com.bridgelabz.bookstore.entity.Cart;
 import com.bridgelabz.bookstore.entity.Order;
+import com.bridgelabz.bookstore.entity.Quantity;
 import com.bridgelabz.bookstore.entity.User;
 import com.bridgelabz.bookstore.entity.WishList;
 import com.bridgelabz.bookstore.exception.BookStoreException;
+import com.bridgelabz.bookstore.repository.BookRepository;
 import com.bridgelabz.bookstore.repository.CartRepository;
+import com.bridgelabz.bookstore.repository.QuantityRepository;
 import com.bridgelabz.bookstore.repository.UserRepository;
 import com.bridgelabz.bookstore.repository.WishListRepository;
 import com.bridgelabz.bookstore.service.CartService;
@@ -35,6 +39,11 @@ public class WishListServiceImpl implements WishListService{
 	private WishListRepository wishrepo;
 	@Autowired
 	private UserRepository userrepo;
+	@Autowired
+	private CartRepository cartrepo;
+	private BookRepository bookrepo;
+	@Autowired
+	private QuantityRepository quantrepo;
 	@Override
 	public List<Book> addBookToWishList(Long bookId, String token) throws BookStoreException {
 		Long userId=JWTUtility.parseJWT(token);
@@ -117,5 +126,37 @@ public class WishListServiceImpl implements WishListService{
 		wishlist.getBooklist().remove(book2);
 		wishrepo.save(wishlist);
 		return wishlist.getBooklist();
+	}
+	//@Transactional
+	@Modifying
+	public Book wishlistToCart(Long bookId, String token) throws BookStoreException {
+		Long userId=JWTUtility.parseJWT(token);
+		User user=userImpl.getUserById(userId);
+		Book book=bookImpl.getBookById(bookId);
+		WishList wishlist=user.getWishlist();
+		Cart cart=user.getCart();
+		book=wishlist.getBooklist().stream().filter(book1 -> book1.getBookId()==bookId).findFirst().orElseThrow(()-> new BookStoreException("no book in the wishlist",HttpStatus.NOT_FOUND));
+		Optional<Book> isBook =cart.getBooklist().stream().filter(isBookExists -> isBookExists.getBookId() == bookId).findFirst();
+		if(isBook.isPresent())
+			throw new BookStoreException("Book already exists",HttpStatus.BAD_REQUEST);
+		Quantity quantity=new Quantity();
+		long quant=1;
+		quantity.setCartQuantity(quant);
+		if(user.getCart()==null)
+		{
+		cart.setCreatedTime(LocalDateTime.now());
+		user.setCart(cart);
+		cart.setUser(user);
+		userrepo.save(user);
+		}
+		quantity.setBook(book);
+		quantrepo.save(quantity);
+		book.setQuantity(quantity);
+		cart.getBooklist().add(book);
+		wishlist.getBooklist().remove(book);
+		wishrepo.save(wishlist);
+		cartrepo.save(cart);
+		userrepo.save(user);
+		return book;
 	}
 }

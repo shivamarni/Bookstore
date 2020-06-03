@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,6 +29,7 @@ import com.bridgelabz.bookstore.serviceimpl.AdminServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @Api(description=" Admin controller for bookstore")
 @RequestMapping("admin")
 public class AdminController {
@@ -47,7 +49,7 @@ public class AdminController {
 	@Transactional
 	@PostMapping("/login")
 	@ApiOperation(value = "Admin Login",response = Iterable.class)
-	public ResponseEntity<Response> loginUser(@Valid @RequestBody LoginDto logindto,BindingResult result) throws BookStoreException
+	public ResponseEntity<Response> loginUser(@Valid @RequestBody LoginDto logindto) throws BookStoreException
 	{
 		Admin admin=adminimpl.loginAdmin(logindto);
 		return new ResponseEntity<Response>(new Response("login successful....", admin, 200),HttpStatus.CREATED);

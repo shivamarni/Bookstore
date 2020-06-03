@@ -2,6 +2,7 @@ package com.bridgelabz.bookstore.serviceimpl;
 
 import java.time.LocalDateTime;
 
+import org.hibernate.annotations.OnDelete;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,7 @@ import com.bridgelabz.bookstore.repository.WishListRepository;
 import com.bridgelabz.bookstore.service.UserService;
 import com.bridgelabz.bookstore.utility.JWTUtility;
 import com.bridgelabz.bookstore.utility.JmsUtility;
+
 @Service
 public class UserServiceImpl implements UserService {
 	
@@ -80,6 +82,7 @@ public class UserServiceImpl implements UserService {
 	}
 	public User getUserByEmail(String email) throws BookStoreException
 	{
+		System.out.println(email+"---------");
 		User user=userrepo.getUserByEmail(email).orElseThrow(() -> new BookStoreException("no user exists", HttpStatus.NOT_FOUND));
 		return user;
 	}

@@ -31,7 +31,6 @@ public class Cart {
 	
 	@Column(name = "bookquantity")
 	
-	private Long bookQuantity;
 	
 	private LocalDateTime createdTime;
 	

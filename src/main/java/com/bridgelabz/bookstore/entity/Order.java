@@ -10,7 +10,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.Data;
@@ -30,9 +32,11 @@ public class Order {
 	
 	private Long totalCartPrice;
 	
-	//private Address address;
+	@OneToOne(cascade = CascadeType.ALL,fetch=FetchType.LAZY,optional = false)
+    @JoinColumn(name = "address_id", nullable = false)
+	private Address address;
 	
-	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "order")
+	@ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "order")
 	private List<Book> orderedBooks;
 	
 	

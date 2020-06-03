@@ -2,11 +2,15 @@ package com.bridgelabz.bookstore.entity;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -14,6 +18,7 @@ import org.springframework.beans.factory.annotation.Value;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import net.minidev.json.annotate.JsonIgnore;
 
 @Entity
 @Setter
@@ -42,4 +47,8 @@ public class Address {
 	private LocalDateTime createdTime;
 	@Value("null")
 	private LocalDateTime updatedtime;
+	
+	@OneToOne(cascade = CascadeType.ALL,fetch=FetchType.LAZY,mappedBy = "address", optional = false)
+	@JsonIgnore
+	private Order order;
 }

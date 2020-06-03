@@ -76,8 +76,7 @@ public class Book {
 	private Quantity quantity;
 	
 	@JsonIgnore
-	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,targetEntity = Order.class)
-	@JoinColumn(name="bookId")
+	@ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,targetEntity = Order.class)
 	private List<Order> order;
 	
 

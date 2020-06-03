@@ -2,10 +2,12 @@ package com.bridgelabz.bookstore.serviceimpl;
 
 import java.time.LocalDateTime;
 
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import com.bridgelabz.bookstore.dto.ForgetPassword;
@@ -21,6 +23,8 @@ import com.bridgelabz.bookstore.repository.WishListRepository;
 import com.bridgelabz.bookstore.service.UserService;
 import com.bridgelabz.bookstore.utility.JWTUtility;
 import com.bridgelabz.bookstore.utility.JmsUtility;
+import com.bridgelabz.bookstore.utility.RabbitMQSender;
+@Component
 @Service
 public class UserServiceImpl implements UserService {
 	
@@ -32,6 +36,8 @@ public class UserServiceImpl implements UserService {
 	private CartRepository cartrepo;
 	@Autowired
 	private WishListRepository wishrepo;
+	@Autowired
+	private RabbitMQSender rabbitsender;
 	@Override
 	public User registerUser(UserDto userdto) throws BookStoreException {
 		if(userrepo.getUserByEmail(userdto.getEmail()).isPresent()==false) {
@@ -54,6 +60,7 @@ public class UserServiceImpl implements UserService {
 		wishrepo.save(wishlist);
 		userrepo.save(user);
 		JmsUtility.sendEmail(userdto.getEmail(),"verification email","http://localhost:3000/verify/"+JWTUtility.jwtToken(user2.getUserId()));
+		rabbitsender.send(user2);
 		return user2;
 		}
 		else
@@ -62,6 +69,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public String loginUser(LoginDto dto) throws BookStoreException {
+		System.out.println(dto+"---------------");
 		User user=getUserByEmail(dto.getEmail());
 		boolean ispwd=pwdBcrypt.matches(dto.getPassword(),user.getPassword());
 		if(ispwd==false) {

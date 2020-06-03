@@ -1,5 +1,6 @@
 package com.bridgelabz.bookstore.controller;
 import javax.validation.Valid;
+import javax.validation.constraints.Email;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,7 +36,13 @@ import io.swagger.annotations.ApiOperation;
 public class UserController {
 	
 	@Autowired
-	private UserServiceImpl userimpl;
+	UserServiceImpl userimpl;
+	
+	@GetMapping("/hello")
+	public String hello()
+	{
+		return "hello";
+	}
 	@PostMapping("/register")
 	@ApiOperation(value = "user registration",response = Iterable.class)
 	public ResponseEntity<Response> registerUser(@Valid @RequestBody UserDto userdto,BindingResult result) throws BookStoreException
@@ -54,16 +61,20 @@ public class UserController {
 		if (result.hasErrors())
 		return new ResponseEntity<Response>(new Response(result.getAllErrors().get(0).getDefaultMessage(),null,400),HttpStatus.BAD_REQUEST);
 		String token=userimpl.loginUser(logindto);
-		return new ResponseEntity<Response>(new Response("login successful....", token, 200),HttpStatus.CREATED);
+		return new ResponseEntity<Response>(new Response("login successful....", token, 200),HttpStatus.OK);
 
 	}
 	
 	@PostMapping("/forgotpassword")
 	@ApiOperation(value = "user forget password",response = Iterable.class)
-	public ResponseEntity<Response> forgotPassword(@RequestHeader String email) throws BookStoreException
+	public ResponseEntity<Response> forgotPassword(@RequestHeader(value="email") @Valid @Email String email) throws BookStoreException
 	{
+		if(email=="")
+		{
+			return new ResponseEntity<Response>(new Response("email should not be null",null,400),HttpStatus.BAD_REQUEST);
+		}
 		User user=userimpl.forgotPassword(email);
-		return new ResponseEntity<Response>(new Response("reset password link sent to email....", user, 200),HttpStatus.CREATED);
+		return new ResponseEntity<Response>(new Response("reset password link sent to email....", user, 200),HttpStatus.OK);
 	}
 	@PutMapping("/verify/{token}")
 	@ApiOperation(value = "verifying user",response = Iterable.class)
@@ -74,7 +85,7 @@ public class UserController {
 	}
 	@PutMapping("/resetpassword/{email}")
 	@ApiOperation(value = "user reset password",response = Iterable.class)
-	public ResponseEntity<Response> resetPassword(@PathVariable("email") String email,@RequestBody ForgetPassword forgotdto ) throws BookStoreException
+	public ResponseEntity<Response> resetPassword(@PathVariable("email") String email,@RequestBody ForgetPassword forgotdto,BindingResult result ) throws BookStoreException
 	{
 		User user=userimpl.resetPassword(email,forgotdto);
 		return new ResponseEntity<Response>(new Response("new password updated", user, 200),HttpStatus.OK);

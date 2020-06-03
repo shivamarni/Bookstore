@@ -24,10 +24,10 @@ public class OrderController {
 	@Autowired
 	private OrderServiceImpl orderImpl;
 	
-	@PostMapping("/addorderdetails")
-	public ResponseEntity<Response> getAllOrders(@RequestHeader String token,@RequestHeader Long totalCartPrice,@RequestHeader Long deliveryCharges,@RequestHeader String type) throws BookStoreException
+	@PostMapping("/addorder")
+	public ResponseEntity<Response> addOrder(@RequestHeader String token,@RequestHeader Long totalCartPrice,@RequestHeader Long deliveryCharges,@RequestHeader String type) throws BookStoreException
 	{
-		Order order=orderImpl.getAllOrders(token,totalCartPrice,deliveryCharges,type);
+		Order order=orderImpl.addOrder(token,totalCartPrice,deliveryCharges,type);
 		return new ResponseEntity<Response>(new Response("your all orders are",order, 200),HttpStatus.OK);
 	}
 }

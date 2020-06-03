@@ -12,7 +12,7 @@ import javax.mail.internet.MimeMessage;
 
 public class JmsUtility {
 	
-	public static void sendEmail(String toEmail, String subject, String body) {
+	public static void sendEmail(String toEmail, String subject, Object body) {
 
 		String fromEmail = System.getenv("email");
 		System.out.println(fromEmail);
@@ -35,13 +35,13 @@ public class JmsUtility {
 	}
 
 
-	private static void send(Session session, String fromEmail, String toEmail, String subject, String body) {
+	private static void send(Session session, String fromEmail, String toEmail, String subject, Object body) {
 		try {
 			MimeMessage message = new MimeMessage(session);
 			message.setFrom(new InternetAddress(fromEmail, "verification email"));
 			message.setRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
 			message.setSubject(subject);
-			message.setText(body);
+			message.setText((String) body);
 			Transport.send(message);
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -1,6 +1,8 @@
 package com.bridgelabz.bookstore.dto;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,9 +16,10 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class LoginDto {	
-	@NotNull(message = "email required for login")
+	@NotBlank(message = "email required for login")
 	@Email
 	private String email;
-	@NotNull(message = "password required for login")
+	@NotBlank(message = "password required for login")
+	@Size(min = 6,max = 25)
 	private String password;
 }

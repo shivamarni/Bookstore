@@ -34,7 +34,8 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/user")
 public class UserController {
 	
-	private UserServiceImpl userimpl=new UserServiceImpl();
+	@Autowired
+	private UserServiceImpl userimpl;
 	@PostMapping("/register")
 	@ApiOperation(value = "user registration",response = Iterable.class)
 	public ResponseEntity<Response> registerUser(@Valid @RequestBody UserDto userdto,BindingResult result) throws BookStoreException
@@ -76,13 +77,6 @@ public class UserController {
 	public ResponseEntity<Response> resetPassword(@PathVariable("email") String email,@RequestBody ForgetPassword forgotdto ) throws BookStoreException
 	{
 		User user=userimpl.resetPassword(email,forgotdto);
-		return new ResponseEntity<Response>(new Response("new password updated", user, 200),HttpStatus.OK);
-	}
-	
-	@GetMapping("/getuser/{userId}")
-	public ResponseEntity<Response> getUser(@PathVariable("userId") Long userId) throws BookStoreException
-	{
-		User user=userimpl.getUserById(userId);
 		return new ResponseEntity<Response>(new Response("new password updated", user, 200),HttpStatus.OK);
 	}
 	

@@ -12,9 +12,9 @@ public interface UserRepository extends JpaRepository<User,String> {
 	@Query(value = "select * from user where user_id=?1",nativeQuery = true)
 	Optional<User> getUserById(Long id);
 
-	@Query(value = "select * from user where user_email=?1",nativeQuery = true)
+	@Query(value = "select * from user where email=?1",nativeQuery = true)
 	Optional<User> getUserByEmail(String email);
 
-	@Query(value = "select * from user where user_email=?1",nativeQuery = true)
+	@Query(value = "select * from user where email=?1",nativeQuery = true)
 	Optional<User> isEmailExists(String email);
 }

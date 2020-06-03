@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -39,7 +38,7 @@ public class WishListController {
 		List<Book> wishListBooks=wishImpl.addBookToWishList(bookId, token);
 		return new ResponseEntity<Response>(new Response("book added to wishList", wishListBooks, 200),HttpStatus.OK);
 	}
-	@PutMapping("/wishlisttocart")
+	
 	@GetMapping("/allwishlistbooks")
 	@ApiOperation(value = "get all books from cart",response = Iterable.class)
 	public ResponseEntity<Response> getAllCartBooks(@RequestHeader("token")	 String token) throws BookStoreException
@@ -65,11 +64,31 @@ public class WishListController {
 //		return new ResponseEntity<Response>(new Response("all books deleted from cart",null, 200),HttpStatus.OK);
 //	}
 //	
-//	@DeleteMapping("/wishlistbook/{bookId}")
-//	@ApiOperation(value = "remove books from wishlist",response = Iterable.class)
-//	public ResponseEntity<Response> deleteCartBook(@PathVariable("bookId") Long bookId,@RequestHeader String token) throws BookStoreException
-//	{
-//		List<Book> cartBooks=cartImpl.deleteCartBook(bookId,token);
-//		return new ResponseEntity<Response>(new Response("book from cart   by id", cartBooks, 200),HttpStatus.OK);
-//	}
+	@PostMapping("/delete")
+	@ApiOperation(value = "remove books from wishlist",response = Iterable.class)
+	public ResponseEntity<Response> deleteCartBook(@RequestHeader("bookId") Long bookId,@RequestHeader("token") String token) throws BookStoreException
+	{
+		List<Book> cartBooks=wishImpl.deleteWishListBook(bookId,token);
+		return new ResponseEntity<Response>(new Response("book from cart   by id", cartBooks, 200),HttpStatus.OK);
+	}
+	
+	@PostMapping("/addtocart")
+	@ApiOperation(value = "remove books from wishlist",response = Iterable.class)
+	public ResponseEntity<Response> addToCart(@RequestHeader("bookId") Long bookId,@RequestHeader("token") String token) throws BookStoreException
+	{
+		List<Book> cartBooks=wishImpl.deleteWishListBook(bookId,token);
+		return new ResponseEntity<Response>(new Response("book from cart by id", cartBooks, 200),HttpStatus.OK);
+	}
+	
+	@PostMapping("/wishlisttocart")
+	public ResponseEntity<Response> wishlistToCart(@RequestHeader("bookId") Long bookId,@RequestHeader("token") String token) throws BookStoreException
+	{
+		Book book=wishImpl.wishlistToCart(bookId,token);
+		return new ResponseEntity<Response>(new Response("book added to cart", book, 200),HttpStatus.OK);
+	}
+	
+	
+	
+	
+	
 }

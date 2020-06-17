@@ -11,8 +11,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.bridgelabz.bookstore.entity.Book;
+import com.bridgelabz.bookstore.entity.Seller;
 import com.bridgelabz.bookstore.exception.BookStoreException;
 import com.bridgelabz.bookstore.repository.PaginationRepository;
+import com.bridgelabz.bookstore.utility.JWTUtility;
 
 @Service
 public class PaginationServiceImpl {
@@ -23,7 +25,8 @@ public class PaginationServiceImpl {
 	@Autowired
 	private BookServiceImpl booksImpl;
 	
-
+	@Autowired
+	private SellerServiceImpl sellerImpl;
 	public List<Book> getBooksById(Integer pageNo, Integer pageSize,String sortBy) throws BookStoreException {
 		Pageable paging = PageRequest.of(pageNo, pageSize,Sort.by(sortBy));		
 		Page<Book> pagedResult = pagerepo.findAll(paging);
@@ -67,6 +70,22 @@ public class PaginationServiceImpl {
 
 
 	public List<Book> getBooksByArrivel(Integer pageNo, Integer pageSize, String sortBy) {
+		Pageable paging = PageRequest.of(pageNo, pageSize,Sort.by(sortBy));		
+		Page<Book> pagedResult = pagerepo.findAll(paging);
+        if(pagedResult.hasContent()) 
+        {
+            return pagedResult.getContent();
+        } 
+        else 
+        {
+            return new ArrayList<Book>();
+        }
+	}
+
+
+	public List<Book> getSellerBooks(Integer pageNo, Integer pageSize, String sortBy, String token) throws BookStoreException {
+		Long sellerId=JWTUtility.parseJWT(token);
+		Seller seller=sellerImpl.getSellerById(sellerId);
 		Pageable paging = PageRequest.of(pageNo, pageSize,Sort.by(sortBy));		
 		Page<Book> pagedResult = pagerepo.findAll(paging);
         if(pagedResult.hasContent()) 

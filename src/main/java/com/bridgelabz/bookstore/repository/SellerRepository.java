@@ -1,5 +1,6 @@
 package com.bridgelabz.bookstore.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityManager;
@@ -8,6 +9,7 @@ import javax.persistence.PersistenceContext;
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
+import com.bridgelabz.bookstore.entity.Book;
 import com.bridgelabz.bookstore.entity.Seller;
 
 
@@ -39,6 +41,12 @@ public class SellerRepository {
 		Session session = entityManager.unwrap(Session.class);
 		return session.createQuery("FROM Seller where email =:email").setParameter("email", email).uniqueResultOptional();
 
+	}
+	
+	public List<Book> getAllSellerBooks(Long sellerId) {
+		Session session = entityManager.unwrap(Session.class);
+
+		return session.createQuery("from Book where seller_id=:id").setParameter("id", sellerId).list();
 	}
 
 	

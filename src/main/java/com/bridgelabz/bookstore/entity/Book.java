@@ -1,5 +1,6 @@
 package com.bridgelabz.bookstore.entity;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -31,7 +32,10 @@ import lombok.Setter;
 @Table(name="book")
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class,scope = Book.class)
 
-public class Book {
+public class Book implements Serializable {
+	
+	
+	private static final long serialVersionUID = 8441630761490458497L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -65,9 +69,9 @@ public class Book {
 	@Column(name = "book_updated_time", nullable = false)
 	private LocalDateTime bookUpdatedTime;
 	
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "book_id")
-	private List<ReviewRating> reviewRating;
+//	@OneToMany(cascade = CascadeType.ALL)
+//	@JoinColumn(name = "book_id")
+//	private List<ReviewRating> reviewRating;
 	@JsonIgnore
 	@ManyToMany(cascade = CascadeType.ALL,fetch=FetchType.LAZY,mappedBy = "booklist")
 	private List<Cart> cartlist;

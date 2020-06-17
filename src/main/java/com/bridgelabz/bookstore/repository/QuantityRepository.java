@@ -26,6 +26,19 @@ public interface QuantityRepository extends JpaRepository<Quantity,String>
 	@Modifying
 	@Query(value = "UPDATE quantity SET cart_quantity=?1 WHERE book_id = ?2",nativeQuery = true)
 	void alterQuantity(Long cartQuantity,Long bookId);
+	
+	
+	@Transactional
+	@Modifying
+	@Query(value = "delete from cart_booklist where cartlist_cart_id=?1",nativeQuery = true)
+	void deleteCartBookList(Long cartId);
+	
+	
+
+	@Transactional
+	@Modifying
+	@Query(value = "delete from quantity",nativeQuery = true)
+	void deleteQuantity(Long cartId);
 }
 //public class QuantityRepository {
 	

@@ -1,6 +1,7 @@
 package com.bridgelabz.bookstore.entity;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -11,15 +12,22 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.springframework.beans.factory.annotation.Value;
+
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name="orderedbooks")
 @Data
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class,scope = Order.class)
 public class Order {
 
 	@Id
@@ -32,16 +40,7 @@ public class Order {
 	
 	private Long totalCartPrice;
 	
-	@OneToOne(cascade = CascadeType.ALL,fetch=FetchType.LAZY,optional = false)
-    @JoinColumn(name = "address_id", nullable = false)
-	private Address address;
-	
 	@ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "order")
-	private List<Book> orderedBooks;
-	
-	
-	
-	
-	
-	
+	protected List<Book> orderedBooks=new ArrayList<Book>();
+		
 }

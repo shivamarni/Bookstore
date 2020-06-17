@@ -12,12 +12,10 @@ import javax.mail.internet.MimeMessage;
 
 public class JmsUtility {
 	
-	public static void sendEmail(String toEmail, String subject, Object body) {
+	public static void sendEmail(String toEmail, String subject, String body) {
 
 		String fromEmail = System.getenv("email");
-		System.out.println(fromEmail);
 		String password = System.getenv("password");
-		System.out.println(password);
 		Properties prop = new Properties();
 		prop.put("mail.smtp.auth", "true");
 		prop.put("mail.smtp.starttls.enable", "true");
@@ -35,13 +33,13 @@ public class JmsUtility {
 	}
 
 
-	private static void send(Session session, String fromEmail, String toEmail, String subject, Object body) {
+	private static void send(Session session, String fromEmail, String toEmail, String subject, String body) {
 		try {
 			MimeMessage message = new MimeMessage(session);
 			message.setFrom(new InternetAddress(fromEmail, "verification email"));
 			message.setRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
 			message.setSubject(subject);
-			message.setText((String) body);
+			message.setText(body);
 			Transport.send(message);
 		} catch (Exception e) {
 			e.printStackTrace();

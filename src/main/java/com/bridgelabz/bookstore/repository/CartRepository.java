@@ -41,4 +41,18 @@ public class CartRepository {
 
 	}
 
+	public boolean deleteCartBookList(Long cartId) {
+Session session = entityManager.unwrap(Session.class);
+		
+		Query query = session.createQuery("DELETE FROM cart_booklist where cartlist_cart_id=:cartId").setParameter("cartId", cartId);
+		int result = query.executeUpdate();
+		if (result >= 1) {
+			return true;
+
+		}
+		return false;
+
+	}
+
+
 }

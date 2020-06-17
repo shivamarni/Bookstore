@@ -13,8 +13,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import com.bridgelabz.bookstore.controller.UserController;
-import com.bridgelabz.bookstore.dto.LoginDto;
-import com.bridgelabz.bookstore.dto.UserDto;
 import com.bridgelabz.bookstore.serviceimpl.UserServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

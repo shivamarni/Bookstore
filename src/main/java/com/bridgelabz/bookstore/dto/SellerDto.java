@@ -10,15 +10,10 @@ import lombok.Setter;
 @Getter
 @Setter
 public class SellerDto {
-	@NotNull(message = "first name required for registration...")
+	@NotNull(message = " Name required for registration...")
 	@Pattern(regexp = "^[a-zA-Z]*", message = "Digits and Special characters are not allowed")
-	@Size(min = 3,max = 25,message = "first name must be in length of 7-25 only")
-	private String firstName;
-	
-	@NotNull(message = "last name required for registration...")
-	@Pattern(regexp = "^[a-zA-Z]*", message = "Digits and Special characters are not allowed")
-	@Size(min = 3,max = 25,message = "last name must be in length of 7-25 only")
-	private String lastName;
+	@Size(min = 3, max = 25, message = " Name must be in length of 7-25 only")
+	private String name;
 	
 	@NotNull(message = "password required for registration...")
 	@Size(min = 6,max = 25,message = "password must be in length of 7-25 only")

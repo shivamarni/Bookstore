@@ -29,8 +29,6 @@ public class Cart {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long cartId;
 	
-	@Column(name = "bookquantity")
-	
 	
 	private LocalDateTime createdTime;
 	

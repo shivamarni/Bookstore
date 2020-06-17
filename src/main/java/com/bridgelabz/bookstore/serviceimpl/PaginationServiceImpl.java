@@ -27,7 +27,6 @@ public class PaginationServiceImpl {
 	private BookServiceImpl booksImpl;
 	@Autowired
 	private SellerServiceImpl sellerImpl;
-	
 	@Cacheable("books")
 	public List<Book> getBooksById(Integer pageNo, Integer pageSize,String sortBy) throws BookStoreException {
 		 try
@@ -108,5 +107,4 @@ public class PaginationServiceImpl {
             return new ArrayList<Book>();
         }
 	}
-
 }

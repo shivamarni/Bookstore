@@ -28,10 +28,8 @@ public class Seller {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long sellerId;
-	@Column(name = "seller_firstName", nullable = false)
-	private String firstName;
-	@Column(name = "seller_lastName", nullable = false)
-	private String lastName;
+	@Column(name = "Seller_Name", nullable = false)
+	private String name;
 	@Column(name = "password", nullable = false)
 	private String password;
 	@Column(name = "seller_email", nullable = false)
@@ -40,10 +38,10 @@ public class Seller {
 	private Long phoneNumber;
 	@Column(name = "verified", nullable = false)
 	private boolean isVerified;
-	@Column(name = "country", nullable = false)
-	private String country;
-	@Column(name = "zipCode", nullable = false)
-	private Long zipCode;
+//	@Column(name = "country", nullable = false)
+//	private String country;
+//	@Column(name = "zipCode", nullable = false)
+//	private Long zipCode;
 	private LocalDateTime createdDate;
 	
 	private LocalDateTime updatedDate;

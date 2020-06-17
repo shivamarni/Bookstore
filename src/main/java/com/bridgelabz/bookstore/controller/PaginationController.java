@@ -39,7 +39,7 @@ public class PaginationController {
     @GetMapping("/sellerbooks")
     public ResponseEntity<Response> getSellerBooks(@RequestHeader(defaultValue = "0") Integer pageNo, 
                         @RequestParam(defaultValue = "8") Integer pageSize,
-                        @RequestParam(defaultValue = "bookId") String sortBy,@RequestHeader String token)throws BookStoreException
+                        @RequestParam(defaultValue = "book_id") String sortBy,@RequestHeader String token)throws BookStoreException
     {
         List<Book> books = pageImpl.getSellerBooks(pageNo, pageSize , sortBy,token);
         System.out.println("Searching by ID");

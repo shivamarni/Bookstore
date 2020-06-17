@@ -27,7 +27,7 @@ public class PaginationServiceImpl {
 	private BookServiceImpl booksImpl;
 	@Autowired
 	private SellerServiceImpl sellerImpl;
-	@Cacheable("books")
+//	@Cacheable("books")
 	public List<Book> getBooksById(Integer pageNo, Integer pageSize,String sortBy) throws BookStoreException {
 		 try
 	        {
@@ -97,7 +97,7 @@ public class PaginationServiceImpl {
 		Long sellerId=JWTUtility.parseJWT(token);
 		Seller seller=sellerImpl.getSellerById(sellerId);
 		Pageable paging = PageRequest.of(pageNo, pageSize,Sort.by(sortBy));		
-		Page<Book> pagedResult = pagerepo.findAll(paging,sellerId);
+		Page<Book> pagedResult = pagerepo.findAll(sellerId,paging);
         if(pagedResult.hasContent()) 
         {
             return pagedResult.getContent();

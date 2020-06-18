@@ -31,18 +31,17 @@ public class PaginationController {
                         @RequestParam(defaultValue = "bookId") String sortBy)throws BookStoreException
     {
         List<Book> books = pageImpl.getBooksById(pageNo, pageSize , sortBy);
-        System.out.println("Searching by ID");
+ 
         return new ResponseEntity<Response>(new Response("pagination",books ,200), HttpStatus.OK); 
     }
-    
     
     @GetMapping("/sellerbooks")
     public ResponseEntity<Response> getSellerBooks(@RequestHeader(defaultValue = "0") Integer pageNo, 
                         @RequestParam(defaultValue = "8") Integer pageSize,
-                        @RequestParam(defaultValue = "book_id") String sortBy,@RequestHeader String token)throws BookStoreException
+                        @RequestParam(defaultValue = "bookId") String sortBy,@RequestHeader String token)throws BookStoreException
     {
         List<Book> books = pageImpl.getSellerBooks(pageNo, pageSize , sortBy,token);
-        System.out.println("Searching by ID");
+ 
         return new ResponseEntity<Response>(new Response("pagination",books ,200), HttpStatus.OK); 
     }
     

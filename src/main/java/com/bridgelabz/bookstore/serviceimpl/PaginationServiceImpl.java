@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -25,20 +24,10 @@ public class PaginationServiceImpl {
 	private PaginationRepository pagerepo;
 	@Autowired
 	private BookServiceImpl booksImpl;
+	
 	@Autowired
 	private SellerServiceImpl sellerImpl;
-//	@Cacheable("books")
 	public List<Book> getBooksById(Integer pageNo, Integer pageSize,String sortBy) throws BookStoreException {
-		 try
-	        {
-	            System.out.println("Going to sleep for 5 Secs.. to simulate backend call.");
-	            Thread.sleep(1000*5);
-	        } 
-	        catch (InterruptedException e) 
-	        {
-	            e.printStackTrace();
-	        }
-	 
 		Pageable paging = PageRequest.of(pageNo, pageSize,Sort.by(sortBy));		
 		Page<Book> pagedResult = pagerepo.findAll(paging);
         if(pagedResult.hasContent()) 
@@ -92,19 +81,22 @@ public class PaginationServiceImpl {
             return new ArrayList<Book>();
         }
 	}
-	
+
+
 	public List<Book> getSellerBooks(Integer pageNo, Integer pageSize, String sortBy,String token) throws BookStoreException {
 		Long sellerId=JWTUtility.parseJWT(token);
 		Seller seller=sellerImpl.getSellerById(sellerId);
-		Pageable paging = PageRequest.of(pageNo, pageSize,Sort.by(sortBy));		
+		Pageable paging = PageRequest.of(pageNo, pageSize,Sort.by(sortBy));
 		Page<Book> pagedResult = pagerepo.findAll(sellerId,paging);
-        if(pagedResult.hasContent()) 
-        {
-            return pagedResult.getContent();
-        } 
-        else 
-        {
-            return new ArrayList<Book>();
-        }
-	}
+		if(pagedResult.hasContent())
+		{
+		return pagedResult.getContent();
+		}
+		else
+		{
+		return new ArrayList<Book>();
+		}
+		}
+
+
 }

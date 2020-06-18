@@ -169,4 +169,16 @@ public class BookServiceImpl implements BookService {
 		List<Book> allBooks=bookrepo.getAllBooks();
 		return 	allBooks.size();
 	}
+
+	@Override
+	@Transactional
+	public Book verifyBook(Long bookId) throws BookStoreException {
+		
+		Book book = bookrepo.findById(bookId)
+				.orElseThrow((() -> new BookStoreException("book not found", HttpStatus.NOT_FOUND)));
+
+		book.setBookVerified(!book.isBookVerified());
+		bookrepo.save(book);
+		return book;
+	}
 }

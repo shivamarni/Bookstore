@@ -30,4 +30,6 @@ public interface BookService {
 
 	public int getBookCount();
 
+	public Book verifyBook(Long bookId) throws BookStoreException;
+
 }

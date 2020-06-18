@@ -40,6 +40,13 @@ public class BookRepository {
 		return session.createQuery("from Book").list();
 	}
 
+	public Optional<Book> verifyBook(Long bookId) {
+		
+		Session session = entityManager.unwrap(Session.class);
+		return session.createQuery("Update Book set book_verified=:verify where book_id =:id").setParameter("verify", true).setParameter("id", bookId).uniqueResultOptional();
+
+	}
+
 	
 
 }

@@ -12,7 +12,7 @@ import com.bridgelabz.bookstore.exception.S3BucketException;
 public interface BookService {
 	public Book addBook(MultipartFile file, BookDto bookDTO, String token) throws BookStoreException, S3BucketException;
 
-	public Book updateBook(BookDto bookDTO, String token, Long bookId) throws BookStoreException;
+	public Book updateBook(Book bookDetails, String token, Long bookId) throws BookStoreException;
 
 	public Book deleteBook(String token, Long bookId) throws BookStoreException;
 

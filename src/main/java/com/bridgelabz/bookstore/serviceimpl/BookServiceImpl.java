@@ -71,14 +71,15 @@ public class BookServiceImpl implements BookService {
 	@Override
 	@Transactional
 
-	public Book updateBook(BookDto bookDTO, String token, Long bookId) throws BookStoreException {
+	public Book updateBook(Book bookDTO, String token, Long bookId) throws BookStoreException {
 		Long sellerId = JWTUtility.parseJWT(token);
-
+		
 		Seller seller = sellerrepo.getSellerById(sellerId)
 				.orElseThrow(() -> new BookStoreException("Seller not found", HttpStatus.NOT_FOUND));
 
 		Book book = seller.getSellerBooks().stream().filter(boook -> boook.getBookId().equals(bookId)).findFirst()
 				.orElseThrow(() -> new BookStoreException("Book not present ", HttpStatus.NOT_FOUND));
+		System.out.println(book.getBookDescription());
 		book.setBookName(bookDTO.getBookName());
 		book.setBookPrice(bookDTO.getBookPrice());
 		book.setBookAuthor(bookDTO.getBookAuthor());
@@ -181,4 +182,6 @@ public class BookServiceImpl implements BookService {
 		bookrepo.save(book);
 		return book;
 	}
+
+	
 }

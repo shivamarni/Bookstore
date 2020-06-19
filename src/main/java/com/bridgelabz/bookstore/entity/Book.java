@@ -45,7 +45,7 @@ public class Book implements Serializable {
 	@Column(name = "book_name", nullable = false)
 	private String bookName;
 	
-	@Column(name = "book_author", nullable = false)
+	@Column(name = "book_author")
 	private String bookAuthor;
 	
 	@Column(name = "book_price", nullable = false)

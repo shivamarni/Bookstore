@@ -47,25 +47,26 @@ public class BookController {
 	private BookService bookService;
 	@PostMapping(value="/add")
 	@ApiOperation(value = "add book details",response = Iterable.class)
-	public ResponseEntity<Response> addBook( @RequestParam(value = "file") MultipartFile file,@ModelAttribute BookDto bookDTO, @RequestHeader(name = "token") String token)
+	public ResponseEntity<Response> addBook( @RequestParam(value = "file") MultipartFile file,@RequestBody BookDto bookDTO, @RequestHeader(name = "token") String token)
 			throws BookStoreException, S3BucketException {
 		System.out.println(file);
 		Book book = bookService.addBook(file,bookDTO, token);
 		return new ResponseEntity<Response>(new Response("Book added to seller", book, 200), HttpStatus.CREATED);
 	}
 
-	@PostMapping("/update")
+	@PostMapping("/updateBook/{bookId}")
 	@ApiOperation(value = "update book details",response = Iterable.class)
-	public ResponseEntity<Response> updateBook(@RequestBody BookDto bookDTO,@RequestHeader("token") String token,
-			@RequestHeader("bookId") Long bookId) throws BookStoreException {
-		Book book = bookService.updateBook(bookDTO,token, bookId);
+	public ResponseEntity<Response> sellerUpdateBook(@PathVariable("bookId") Long bookId,@RequestBody Book bookDetails,@RequestHeader("token") String token) throws BookStoreException {
+		System.out.println(bookDetails);
+		System.out.println(bookId);
+		Book book = bookService.updateBook(bookDetails,token, bookId);
 		return new ResponseEntity<Response>(new Response("Book updated to seller", book, 200), HttpStatus.CREATED);
 
 	}
 	
 	@PostMapping("/verify")
 	@ApiOperation(value = "update book details",response = Iterable.class)
-	public ResponseEntity<Response> updateBook(@RequestHeader("bookId") Long bookId) throws BookStoreException {
+	public ResponseEntity<Response> verifyBook(@RequestHeader("bookId") Long bookId) throws BookStoreException {
 		Book book = bookService.verifyBook(bookId);
 		return new ResponseEntity<Response>(new Response("Book verified", book, 200), HttpStatus.CREATED);
 
